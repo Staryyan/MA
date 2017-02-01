@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body ng-app="app" ng-controller="ctrl">
+    <div class="container">
+        <input type="file" ng-file-select="onFileSelect($files)" multiple accept="text/csv">
+    </div>
+
+    <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js" type="text/javascript"></script>
+    <script src="http://apps.bdimg.com/libs/angular-file-upload/1.3.1/angular-file-upload.min.js"></script>
+
+    <script>
+    var app = angular.module('app', ['angularFileUpload']);
+    app.controller('ctrl', function ($scope, $upload) {
+        $scope.onFileSelect = function($files) {    //$files:是已选文件的名称、大小和类型的数组
+            for (var i = 0; i < $files.length; i++) {
+                var file = $files[i];
+                console.log(file);
+                /*文件上传函数*/
+                $scope.upload = $upload.upload({
+                    url: 'server/upload/url', //上传的url
+                    //method: 'POST' or 'PUT',
+                    //headers: {'header-key': 'header-value'},
+                    //withCredentials: true,
+                    data: {myObj: $scope.myModelObj},
+                    file: file // or list of files ($files) for html5 only
+                    //fileName: 'doc.jpg' or ['1.jpg', '2.jpg', ...] // to modify the name of the file(s)
+                    // customize file formData name ('Content-Disposition'), server side file variable name.
+                    //fileFormDataName: myFile, //or a list of names for multiple files (html5). Default is 'file'
+                    // customize how data is added to formData. See #40#issuecomment-28612000 for sample code
+                    //formDataAppender: function(formData, key, val){}
+                }).progress(function(evt) {//上传进度
+
+                    console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+
+                }).success(function(data, status, headers, config) {
+                    // 文件上传成功处理函数
+                    console.log(data);
+
+                }).error(function(data, status, headers, config) {
+                    //失败处理函数
+                    console.log('上传失败');
+                });
+            }
+        };
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+//
+   Created by yanzexin on 31/01/2017.
+   All right reserved. 9:19 PM
+
+extends admin_layout
+append stylesheets
+    // Vendor CSS
+    link(href='../templates/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css', rel='stylesheet')
+    link(href='../templates/vendors/summernote/dist/summernote.css', rel='stylesheet')
+
+append content
+    .container(ng-app='adminApp', ng-controller='publishHomeworkCtrl')
+        .card
+            .card-header
+                h2
+                    | Publish Homework
+                    small
+            .card-padding.card-header
+                .row
+                    .col-sm-4
+                        p.c-black.f-500.m-b-20 Name
+                        .input-group.form-group
+                            .fg-line
+                                input.form-control(type='text', placeholder='Description', ng-model='description')
+                        p.c-black.f-500.m-b-20 Begin Time
+                        .input-group.form-group
+                            span.input-group-addon
+                                i.zmdi.zmdi-calendar
+                            .dtp-container.fg-line
+                                input#beginTime.form-control.date-time-picker(type='text', placeholder='Click here...')
+                        p.c-black.f-500.m-b-20 Deadline
+                        .input-group.form-group
+                            span.input-group-addon
+                                i.zmdi.zmdi-calendar
+                            .dtp-container.fg-line
+                                input#deadline.form-control.date-time-picker(type='text', placeholder='Click here...')
+                        button.btn.btn-success.btn-icon-text.waves-effect(ng-click='submit()')
+                            i.zmdi.zmdi-check
+                            | Submit
+                        button.btn.btn-danger.btn-icon-text.waves-effect(ng-click='cancel()')
+                            i.zmdi.zmdi-delete
+                            | Cancel
+append javascripts
+     script(src='../templates/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')
+     script(src='../templates/vendors/bower_components/typeahead.js/dist/typeahead.bundle.min.js')
+     script(src='../javascripts/admin_publishHomework.js')
