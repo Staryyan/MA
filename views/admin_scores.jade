@@ -1,0 +1,39 @@
+//
+   Created by yanzexin on 02/02/2017.
+   All right reserved. 10:17 AM
+extends admin_layout
+
+append content
+    .container(ng-app='adminApp' ng-controller='scoresCtrl')
+        .card
+            .card-header
+                ul.actions
+                    li
+                        a(href='')
+                            i.zmdi.zmdi-download
+
+                h2
+                    | 成绩表
+                br
+                .col-sm-3.m-b-25
+                    select.selectpicker(data-live-search='true' ng-model='selectedHomework')
+                        option(ng-repeat='each in totalHomework') {{each}}
+
+            .card-body
+                .table-responsive
+                    table#data-table-basic.table.table-striped
+                        thead
+                            tr
+                                th(data-column-id='id', data-type='numeric') 学号
+                                th(data-column-id='sender') 姓名
+                                th(data-column-id='received', data-order='desc') 成绩
+                        tbody
+                            tr(ng-repeat='each in totalScores')
+                                td {{each['studentId']}}
+                                td {{each['name']}}
+                                td {{each['score']}}
+
+append javascripts
+    script(src='../templates/vendors/bootgrid/jquery.bootgrid.updated.min.js')
+    script(src='../javascripts/admin_scores.js')
+

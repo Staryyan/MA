@@ -18,4 +18,8 @@ router.get('/admin_publishHomework', function (request, response) {
   response.render('admin_publishHomework');
 });
 
+router.get('/admin_scores', function (request, response) {
+  response.render('admin_scores');
+});
+
 module.exports = router;
