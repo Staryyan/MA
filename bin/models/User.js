@@ -19,20 +19,42 @@ var UserSchema = Schema({
     status: String
 });
 
-UserSchema.statics.logInCheck = function (studentId, password, cb) {
-    console.log(parsePassword(password));
-    this.find({studentId: studentId, password: parsePassword(password)}, cb).catch(function (error) {
-        console.log(error);
+UserSchema.statics.logInCheck = function (user, cb) {
+    this.findUserByStudentId(user.studentId, function (data) {
+        if (!data) {
+            cb({'succeed': false, 'error': '用户不存在.'});
+        } else {
+            if (data[0]['password'] == parsePassword(user.password)) {
+                cb({'succeed': true}, data);
+            } else {
+                cb({'succeed': false, 'error': '密码错误.'});
+            }
+        }
+    });
+};
+UserSchema.statics.register = function (new_user, cb) {
+    this.findUserByStudentId(new_user.studentId, function (data) {
+        if (!data.length) {
+            var user = new User({
+                studentId: new_user.studentId,
+                name: new_user.name,
+                password: parsePassword(parsePassword(new_user.studentId)),
+                email: new_user.email,
+                status: new_user.status
+            });
+            user.save().then(cb);
+        } else {
+            cb();
+        }
     });
 };
 
-UserSchema.statics.register = function (new_user, cb) {
-    var user = new User({
-        studentId: new_user.studentId,
-        name: new_user.name,
-        password: parsePassword(new_user.password)
+UserSchema.statics.findUserByStudentId = function (studentId, cb) {
+    this.find({studentId: studentId}).then(function (data) {
+        cb(data);
+    }).catch(function (error) {
+        console.log(error);
     });
-    user.save().then(cb);
 };
 
 UserSchema.statics.importUserList = function (userList, status, cb) {
@@ -41,7 +63,7 @@ UserSchema.statics.importUserList = function (userList, status, cb) {
         var user = new User({
             studentId: each['studentId'],
             name: each['name'],
-            password: parsePassword(each['studentId']),
+            password: parsePassword(parsePassword(each['studentId'])),
             email: each['email'],
             status: status
         });

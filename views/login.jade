@@ -1,0 +1,74 @@
+//
+   Created by yanzexin on 23/11/2016.
+   All right reserved. 6:59 PM
+
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        title Moments-Login
+        // Vendor CSS
+        link(href='templates/vendors/bower_components/animate.css/animate.min.css', rel='stylesheet')
+        link(href='templates/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css', rel='stylesheet')
+        // CSS
+        link(href='templates/css/app.min.1.css', rel='stylesheet')
+        link(href='templates/css/app.min.2.css', rel='stylesheet')
+    body.login-content
+        // Login
+        #l-login.lc-block.toggled
+            .input-group.m-b-5
+                span.input-group-addon
+                    i.zmdi.zmdi-account
+                .fg-line
+                    input.form-control#studentId(type='text', placeholder='学号' required='required')
+            .input-group.m-b-5
+                span.input-group-addon
+                    i.zmdi.zmdi-male
+                .fg-line
+                    input.form-control#password(type='password', placeholder='密码' required='required')
+            .checkbox
+                label
+                    input#remember(type="checkbox")
+                    i.input-helper
+                    | Keep me signed in
+            a.btn.btn-login.btn-danger.btn-float#login
+                i.zmdi.zmdi-arrow-forward
+            ul.login-navigation
+                li.bgm-orange(data-block='#l-forget-password') Forgot Password?
+
+        // Forgot Password
+        #l-forget-password.lc-block
+            p.text-left
+                | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu risus. Curabitur commodo lorem fringilla enim feugiat commodo sed ac lacus.
+            .input-group.m-b-20
+                span.input-group-addon
+                    i.zmdi.zmdi-email
+                .fg-line
+                    input.form-control(type='text', placeholder='Email Address')
+            a.btn.btn-login.btn-danger.btn-float(href='')
+                i.zmdi.zmdi-arrow-forward
+            ul.login-navigation
+                li.bgm-green(data-block='#l-login') Login
+        // Footer
+        footer#footer
+            | Copyright © 2016 Stary
+
+        // Page Loader
+        .page-loader
+            .preloader.pls-blue
+                svg.pl-circular(viewbox='25 25 50 50')
+                    circle.plc-path(cx='50', cy='50', r='20')
+                p Please wait...
+
+        // Javascript Libraries
+        script(src='templates/vendors/bower_components/jquery/dist/jquery.min.js')
+        script(src='templates/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js')
+        script(src='templates/vendors/bower_components/Waves/dist/waves.min.js')
+        script(src='templates/vendors/bootstrap-growl/bootstrap-growl.min.js')
+        script(src='javascripts/notify.js')
+        script(src='javascripts/md5.js')
+
+        script(src='templates/js/functions.js')
+        script(src='javascripts/login.js')
