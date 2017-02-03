@@ -8,14 +8,16 @@ var Schema = mongoose.Schema;
 var HomeworkSchema = new Schema({
     title: String,
     beginTime: String,
-    deadline: String
+    deadline: String,
+    url: String
 });
 
 HomeworkSchema.statics.publish = function (will_homework, cb) {
     var homework = new Homework({
         title: will_homework['title'],
         beginTime: will_homework['beginTime'],
-        deadline: will_homework['deadline']
+        deadline: will_homework['deadline'],
+        url: will_homework['url']
     });
     homework.save().then(function (data) {
         console.log(data);

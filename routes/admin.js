@@ -17,7 +17,6 @@ router.post('/previewUser', function (request, response) {
     form.hash = false;
     form.maxFieldsSize = 10 * 1024 * 1024;
     form.maxFileSize = 1;
-    
     form.parse(request, function (err, field, files) {
         if (err) {
             response.render('error');
@@ -50,7 +49,8 @@ router.post('/publishHomework', function (request, response) {
     Homework.publish(
         {title: request.body.title,
             beginTime: request.body.beginTime,
-            deadline: request.body.deadline
+            deadline: request.body.deadline,
+            url: request.body.url
     }, function (data) {
             console.log(data);
             response.json({'succeed': true});

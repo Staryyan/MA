@@ -8,7 +8,12 @@ append stylesheets
     link(href='../templates/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css', rel='stylesheet')
     link(href='../templates/vendors/summernote/dist/summernote.css', rel='stylesheet')
 
+    // CSS
+    link(href='../templates/css/app.min.1.css', rel='stylesheet')
+    link(href='../templates/css/app.min.2.css', rel='stylesheet')
+
 append content
+
     .container(ng-app='adminApp', ng-controller='publishHomeworkCtrl')
         .card
             .card-header
@@ -18,17 +23,21 @@ append content
             .card-padding.card-header
                 .row
                     .col-sm-4
-                        p.c-black.f-500.m-b-20 Name
+                        p.c-black.f-500.m-b-20 作业名
                         .input-group.form-group
                             .fg-line
                                 input.form-control(type='text', placeholder='Description', ng-model='description')
-                        p.c-black.f-500.m-b-20 Begin Time
+                        p.c-black.f-500.m-b-20 作业链接
+                            .input-group.form-group
+                                .fg-line
+                                    input.form-control(type='text', placeholder='Url', ng-model='url')
+                        p.c-black.f-500.m-b-20 开始时间
                         .input-group.form-group
                             span.input-group-addon
                                 i.zmdi.zmdi-calendar
                             .dtp-container.fg-line
                                 input#beginTime.form-control.date-time-picker(type='text', placeholder='Click here...')
-                        p.c-black.f-500.m-b-20 Deadline
+                        p.c-black.f-500.m-b-20 结束时间
                         .input-group.form-group
                             span.input-group-addon
                                 i.zmdi.zmdi-calendar

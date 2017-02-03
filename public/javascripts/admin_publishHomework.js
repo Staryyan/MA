@@ -12,7 +12,8 @@ app.controller('publishHomeworkCtrl', function ($scope, $http) {
                 data: {
                     title: $scope.description,
                     beginTime: $('#beginTime').val(),
-                    deadline: $('#deadline').val()
+                    deadline: $('#deadline').val(),
+                    url: $scope.url
                 },
                 method: 'POST'
             }).success(function (data) {
@@ -36,6 +37,10 @@ app.controller('publishHomeworkCtrl', function ($scope, $http) {
         console.log('test');
         if (!$scope.description) {
             notify('作业题目不能为空!', 'danger');
+            return true;
+        }
+        if (!$scope.url) {
+            notify('作业链接不能为空!', 'danger');
             return true;
         }
         if (!$('#beginTime').val() || !$('#deadline').val()) {

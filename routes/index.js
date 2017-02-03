@@ -35,10 +35,17 @@ router.get('/student_home', function (request, response) {
   response.render('student_home');
 });
 
-router.get('/student_profile', function (request, response) {
+router.get('/profile', function (request, response) {
   var userCookie = request.cookies.user;
   console.log(userCookie);
-  response.render('student_profile', {studentId: userCookie.studentId, name: userCookie.name, email: userCookie.email});
+  if (userCookie.status == 'admin') {
+    href = 'admin_profile';
+  } else if (userCookie.status == 'TA') {
+    href = 'TA_profile';
+  } else {
+    href = 'student_profile';
+  }
+  response.render(href, {studentId: userCookie.studentId, name: userCookie.name, email: userCookie.email});
 });
 
 router.get('/home', function (request, response) {
