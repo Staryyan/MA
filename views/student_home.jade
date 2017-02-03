@@ -1,0 +1,64 @@
+//
+   Created by yanzexin on 03/02/2017.
+   All right reserved. 5:16 PM
+extends student_layout
+
+append content
+    .container
+        .col-md-12
+            .card
+                .card-header
+                    h2 成绩单
+                .card-body.card-padding-sm
+                    #bar-chart.flot-chart
+                    .flc-bar
+        .row
+            .col-sm-4
+                .card
+                    .card-header.bgm-red
+                        h2
+                            | {{Homework}} Finished
+                            small
+                        ul.actions
+                            li
+                                a(href='')
+                                    i.zmdi.zmdi-download
+                            li.dropdown
+                                a(href='', data-toggle='dropdown')
+                                    i.zmdi.zmdi-more-vert
+                                ul.dropdown-menu.dropdown-menu-right
+                                    li
+                                        a(href='') {{homework website}}
+                                    li
+                                        a(href='') Others
+                    .card-body.card-padding
+                        | Deadline: {{deadline}}
+            .col-sm-4
+                .card
+                    .card-header.ch-alt.m-b-20
+                        h2
+                            | {{Homework}}
+                            small
+                        ul.actions
+                            li
+                                a(href='')
+                                    i.zmdi.zmdi-download
+                            li.dropdown
+                                a(href='', data-toggle='dropdown')
+                                    i.zmdi.zmdi-more-vert
+                                ul.dropdown-menu.dropdown-menu-right
+                                    li
+                                        a(href='') {{homework website}}
+                                    li
+                                        a(href='') Others
+                        button.btn.bgm-red.btn-float.waves-effect
+                            i.zmdi.zmdi-plus
+                    .card-body.card-padding
+                        | Deadline: {{deadline}}
+append javascripts
+    script(src='../templates/vendors/bower_components/flot/jquery.flot.js')
+    script(src='../templates/vendors/bower_components/flot/jquery.flot.resize.js')
+    script(src='../templates/vendors/bower_components/flot.tooltip/js/jquery.flot.tooltip.min.js')
+    script(src='../templates/vendors/bower_components/flot-orderBars/js/jquery.flot.orderBars.js')
+    script(src='../templates/vendors/bower_components/flot-orderBars/js/jquery.flot.orderBars.js')
+    script(src='../javascripts/student_home.js')

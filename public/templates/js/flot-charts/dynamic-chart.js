@@ -50,13 +50,13 @@ $(document).ready(function(){
                 min: 0,
                 max: 100,
                 tickColor: '#eee',
+                ticks: yticks,
                 font :{
                     lineHeight: 13,
                     style: "normal",
                     color: "#9f9f9f",
                 },
                 shadowSize: 0,
-    
             },
             xaxis: {
                 tickColor: '#eee',

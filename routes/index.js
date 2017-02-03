@@ -3,7 +3,16 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('login', { });
+  res.render('login', {});
+});
+
+router.get('/login', function (request, response) {
+  response.render('login');
+});
+
+router.get('/logout', function (request, response) {
+  response.clearCookie('user');
+  response.render('login');
 });
 
 router.get('/admin_home', function (request, response) {
@@ -20,6 +29,16 @@ router.get('/admin_publishHomework', function (request, response) {
 
 router.get('/admin_scores', function (request, response) {
   response.render('admin_scores');
+});
+
+router.get('/student_home', function (request, response) {
+  response.render('student_home');
+});
+
+router.get('/student_profile', function (request, response) {
+  var userCookie = request.cookies.user;
+  console.log(userCookie);
+  response.render('student_profile', {studentId: userCookie.studentId, name: userCookie.name, email: userCookie.email});
 });
 
 router.get('/home', function (request, response) {

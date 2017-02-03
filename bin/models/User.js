@@ -78,6 +78,27 @@ UserSchema.statics.importUserList = function (userList, status, cb) {
     }
 };
 
+UserSchema.statics.changePassword = function (user, cb) {
+    this.findUserByStudentId(user.studentId, function (data) {
+        console.log(data[0].password);
+        console.log(parsePassword(user.originalPassword));
+        if (data[0].password == parsePassword(user.originalPassword)) {
+            data[0].password = parsePassword(user.newPassword);
+            data[0].save().then(function (info) {
+                if (info) {
+                    cb({'succeed': true});
+                } else {
+                    cb({'succeed': false});
+                }
+            }).catch(function (error) {
+                cb({'succeed': false, 'error': error});
+            });
+        } else {
+            cb({'succeed': false, 'error': '密码错误!'});
+        }
+    });
+};
+
 var User = mongoose.model('User', UserSchema);
 
 module.exports = User;
