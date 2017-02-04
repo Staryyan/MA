@@ -9,14 +9,14 @@ var Schema = mongoose.Schema;
 var ScoreSchema = new Schema({
     homeworkId: String,
     studentId: String,
-    score: String,
+    score: Number,
     files: String
 });
 
 ScoreSchema.statics.handInHomework = function (will_score, cb) {
     this.findOne({homeworkId: will_score.homeworkId, studentId: will_score.studentId}, function (record) {
         if (record) {
-            record.score = will_score.score;
+            record.files = will_score.files;
             record.save().then(function (data) {
                 if (data) {
                     cb({'succeed': true});
@@ -69,61 +69,24 @@ ScoreSchema.statics.setScore = function (will_score, cb) {
     });
 };
 
-
-ScoreSchema.statics.getAllScores = function (user, cb) {
-    this.find({studentId: user.studentId}).then(function (records) {
+ScoreSchema.statics.getAllScores = function (homeworkId, cb) {
+    this.find({homeworkId: homeworkId}).then(function (records) {
         if (records) {
             cb({'succeed': true, 'data': records});
         } else {
             cb({'succeed': false});
         }
     }).catch(function (error) {
-        console.log(error);
         cb({'succeed': false, 'error': error});
     });
 };
 
-function averageScore(scores) {
-    var averageScore = 0;
-    var times = 0;
-    _.each(scores, function (num) {
-        averageScore += num;
-        times++;
-    });
-    averageScore /= times;
-    return averageScore;
-}
-
-ScoreSchema.statics.finishCheck = function (homework, cb) {
-    this.find({homeworkId: homework.homeworkId}).then(function (records) {
-        var scores = _.pluck(records, 'score');
-        var averageScore = averageScore(scores);
-        var maxScore = _.max(scores);
-        var record = new Score({
-            homeworkId: homework.homeworkId,
-            state: 'finished',
-            averageScore: averageScore,
-            maxScore: maxScore
-        });
-        record.save().then(function (data) {
-           if (data) {
-               cb({'succeed': true});
-           } else {
-               cb({'succeed': false});
-           }
-        }).catch(function (error) {
-            console.log(error);
-            cb({'succeed': true, 'error': error});
-        });
-    });
-};
-
-ScoreSchema.statics.getAverageScoreByHomeworkId = function (homework, cb) {
-    this.findOne({homeworkId: homework.homeworkId, state: 'finished'}).then(function (record) {
-        if (record) {
-            cb({'succeed': true, 'averageScore': record.averageScore, 'maxScore': record.maxScore});
+ScoreSchema.statics.getAllScoresByStudentId = function (user, cb) {
+    this.find({studentId: user.studentId}).then(function (records) {
+        if (records) {
+            cb({'succeed': true, 'data': records});
         } else {
-            cb({'succeed': false, 'error': '未改完作业.'});
+            cb({'succeed': false});
         }
     }).catch(function (error) {
         console.log(error);
