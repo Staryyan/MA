@@ -6,7 +6,6 @@ var app = angular.module('adminApp', ['angularFileUpload']);
 
 app.controller('importUserCtrl', function ($scope, $upload, $http) {
     $scope.status = 'Student';
-
     $scope.previewData = function () {
         if ($scope.files) {
             upload();
@@ -61,8 +60,8 @@ app.controller('importUserCtrl', function ($scope, $upload, $http) {
             }).error(function (error, status, headers, config) {
                 //失败处理函数
                 console.log('上传失败');
-
             });
         }
     }
+    
 });

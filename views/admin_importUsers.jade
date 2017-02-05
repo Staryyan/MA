@@ -27,31 +27,34 @@ append content
                                 | preview
                             br
                             br
-                            button.btn.btn-success.btn-icon-text.waves-effect(type='button' ng-click='submitData()')
+                            button.btn.btn-success.btn-icon-text.waves-effect(type='button' ng-click='downloadDemo()')
                                 i.zmdi.zmdi-view-array
                                 | Submit
+                            br
+                            br
+                            a.btn.btn-warning.btn-icon-text.waves-effect(href='/admin/downloadDemo')
+                                i.zmdi.zmdi-download
+                                | download demo
                     .col-sm-3.m-b-25
                         p.f-500.m-b-15.c-black Status
                             select.selectpicker(ng-model='status')
                                 option Student
                                 option TA
-                .table-responsive
-                    table#data-table-basic.table.table-striped
-                        thead
-                            tr
-                                th(data-column-id='id', data-type='numeric') ID
-                                th(data-column-id='sender') Name
-                                th(data-column-id='received', data-order='desc') Email
-                        tbody
-                            tr(ng-repeat='each in userList')
-                                td {{each['studentId']}}
-                                td {{each['name']}}
-                                td {{each['email']}}
-
-
+            table#data-table-basic.table.table-striped.table-vmiddle
+                thead
+                    tr
+                        th(data-column-id='id') 学号
+                        th(data-column-id='name') 姓名
+                        th(data-column-id='score') Email
+                tbody
+                    tr(ng-repeat='each in userList')
+                        td {{each['studentId']}}
+                        td {{each['name']}}
+                        td {{each['email']}}
 append javascripts
-        script(src="http://apps.bdimg.com/libs/angular-file-upload/1.3.1/angular-file-upload.min.js")
-        script(src='../javascripts/admin_importUsers.js')
+    script(src="http://apps.bdimg.com/libs/angular-file-upload/1.3.1/angular-file-upload.min.js")
+    script(src='../javascripts/admin_importUsers.js')
+
 
 
 

@@ -73,4 +73,9 @@ router.post('/loadScoreInfo', function (request, response) {
     });
 });
 
+router.get('/downloadDemo', function (request, response) {
+    console.log('downloadDemo');
+    response.download('private/demo.csv', 'demo.csv');
+});
+
 module.exports = router;

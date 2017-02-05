@@ -23,6 +23,7 @@ html
         link(href='../templates/css/app.min.2.css', rel='stylesheet')
         block stylesheets
 
+
     body
         header#header.clearfix(data-current-skin='blue')
             ul.header-inner
@@ -48,7 +49,7 @@ html
                                 i.zmdi.zmdi-account
                                 |  View Profile
                         li
-                            a(href='')
+                            a(href='/logout')
                                 i.zmdi.zmdi-time-restore
                                 |  Logout
                 ul.main-menu
@@ -102,6 +103,7 @@ html
         script(src='../templates/vendors/bower_components/chosen/chosen.jquery.min.js')
         script(src='../templates/vendors/fileinput/fileinput.min.js')
         script(src='../templates/vendors/input-mask/input-mask.min.js')
+
         script(src='../templates/vendors/bower_components/moment/min/moment.min.js')
         script(src='../templates/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.js')
         script(src='../templates/vendors/bower_components/nouislider/distribute/jquery.nouislider.all.min.js')
@@ -109,9 +111,12 @@ html
         script(src='../templates/vendors/summernote/dist/summernote-updated.min.js')
         script(src='../templates/vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js')
         script(src='../templates/vendors/farbtastic/farbtastic.min.js')
+
         script(src='../templates/js/functions.js')
         script(src='../templates/js/demo.js')
         script(src='../javascripts/notify.js')
+        script(src='../templates/vendors/bootgrid/jquery.bootgrid.updated.min.js')
+
         script(src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js" type="text/javascript")
         block javascripts
 
