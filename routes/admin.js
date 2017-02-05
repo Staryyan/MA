@@ -6,8 +6,11 @@ var express = require('express');
 var router = express.Router();
 var formidable = require('formidable');
 var Parser = require('../bin/utils/CSVParser');
+
 var User = require('../bin/models/User');
 var Homework = require('../bin/models/Homework');
+var ScoreInfo = require('../bin/models/ScoreInfo');
+
 router.post('/previewUser', function (request, response) {
     console.log('previewUser');
     var form = formidable.IncomingForm();
@@ -55,6 +58,19 @@ router.post('/publishHomework', function (request, response) {
             console.log(data);
             response.json({'succeed': true});
         });
+});
+
+router.post('/loadHomework', function (request, response) {
+    Homework.getHomework(function (data) {
+        response.json(data);
+    });
+});
+
+router.post('/loadScoreInfo', function (request, response) {
+    console.log('loadScoreInfo');
+    ScoreInfo.getAllScoreInfo(function (data) {
+        response.json(data);
+    });
 });
 
 module.exports = router;

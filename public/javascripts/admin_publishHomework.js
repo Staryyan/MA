@@ -11,8 +11,7 @@ app.controller('publishHomeworkCtrl', function ($scope, $http) {
                 url: '/admin/publishHomework',
                 data: {
                     title: $scope.description,
-                    beginTime: $('#beginTime').val(),
-                    deadline: $('#deadline').val(),
+                    deadline: getDeadline(),
                     url: $scope.url
                 },
                 method: 'POST'
@@ -34,7 +33,6 @@ app.controller('publishHomeworkCtrl', function ($scope, $http) {
     };
 
     function formIsEmpty() {
-        console.log('test');
         if (!$scope.description) {
             notify('作业题目不能为空!', 'danger');
             return true;
@@ -43,16 +41,22 @@ app.controller('publishHomeworkCtrl', function ($scope, $http) {
             notify('作业链接不能为空!', 'danger');
             return true;
         }
-        if (!$('#beginTime').val() || !$('#deadline').val()) {
-            notify('开始时间和结束时间都不能为空!', 'danger');
+        if (!$('#deadline').val()) {
+            notify('结束时间都不能为空!', 'danger');
             return true;
         }
-        console.log($('#beginTime').val());
-        console.log($('#deadline').val());
-        if ($('#beginTime').val() >= $('#deadline').val()) {
-            notify('结束时间必须晚于开始时间', 'danger');
+        if (getNow() >= getDeadline()) {
+            notify('结束时间必须晚于现在', 'danger');
             return true;
         }
         return false;
+    }
+
+    function getDeadline() {
+        return moment($('#deadline').val(), 'MM/DD/YYYY, h:mm:ss a').format();
+    }
+
+    function getNow() {
+        return moment().format();
     }
 });

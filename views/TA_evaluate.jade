@@ -1,0 +1,30 @@
+//
+   Created by yanzexin on 04/02/2017.
+   All right reserved. 12:05 PM
+
+extends TA_layout
+
+append content
+    .container
+        .card
+            .card-header
+                h2
+                    | Selection Example
+                    small
+                        | Ensure that the data attribute [data-identifier="true"] is set on one column header.
+            table#data-table-command.table.table-striped.table-vmiddle
+                thead
+                    tr
+                        th(data-column-id='id', data-order='desc') 学号
+                        th(data-column-id='name') 姓名
+                        th(data-column-id='score', data-type='numeric') 分数
+                        th(data-column-id='commands', data-formatter='commands', data-sortable='false') Commands
+                tbody
+                    - for (var each of homeworksList)
+                        tr
+                            td #{each['studentId']}
+                            td #{each['name']}
+                            td #{each['score']}
+
+append javascripts
+    script(src='../javascripts/TA_evaluate.js')

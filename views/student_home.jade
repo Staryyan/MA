@@ -4,7 +4,7 @@
 extends student_layout
 
 append content
-    .container
+    .container(ng-app='studentHomeApp' ng-controller='studentHomeCtrl')
         .col-md-12
             .card
                 .card-header
@@ -33,6 +33,28 @@ append content
                                         a(href='') Others
                     .card-body.card-padding
                         | Deadline: {{deadline}}
+                    #uploadFiles.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
+                        .modal-dialog
+                            .modal-content
+                                .modal-header
+                                    h4.modal-title 上传作业
+                                .modal-body
+                                    .card
+                                        .card-header
+                                        .card-body.card-padding
+                                            .row
+                                                .col-sm-4
+                                                    form.fileinput.fileinput-new(data-provides='fileinput' enctype='multipart/form-data')
+                                                        span.btn.btn-primary.btn-file.m-r-10
+                                                            span.fileinput-new 选择文件
+                                                            span.fileinput-exists 改变
+                                                            input(type='file', name='file', ng-file-select="onFileSelect($files)" multiple)
+                                                        span.fileinput-filename
+                                                        a.close.fileinput-exists(href='#', data-dismiss='fileinput') ×
+                                    .modal-footer
+                                        button.btn.btn-link(type='button' ng-click='upload()') 上传
+                                        button.btn.btn-link(type='button', data-dismiss='modal') 取消
+
             .col-sm-4
                 .card
                     .card-header.ch-alt.m-b-20
@@ -51,7 +73,7 @@ append content
                                         a(href='') {{homework website}}
                                     li
                                         a(href='') Others
-                        button.btn.bgm-red.btn-float.waves-effect
+                        a.btn.bgm-red.btn-float.waves-effect(href='#uploadFiles', data-toggle='modal')
                             i.zmdi.zmdi-plus
                     .card-body.card-padding
                         | Deadline: {{deadline}}
@@ -61,4 +83,6 @@ append javascripts
     script(src='../templates/vendors/bower_components/flot.tooltip/js/jquery.flot.tooltip.min.js')
     script(src='../templates/vendors/bower_components/flot-orderBars/js/jquery.flot.orderBars.js')
     script(src='../templates/vendors/bower_components/flot-orderBars/js/jquery.flot.orderBars.js')
+    script(src="http://apps.bdimg.com/libs/angular-file-upload/1.3.1/angular-file-upload.min.js")
+
     script(src='../javascripts/student_home.js')

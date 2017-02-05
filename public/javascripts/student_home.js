@@ -115,3 +115,38 @@ $(document).ready(function(){
         $("<div class='flot-tooltip' class='chart-tooltip'></div>").appendTo("body");
     }
 });
+
+var app = angular.module('studentHomeApp', ['angularFileUpload']);
+
+app.controller('studentHomeCtrl', function ($scope, $upload, $http) {
+    $scope.onFileSelect = function ($files) {
+        $scope.files = $files;
+    };
+    
+    $scope.upload = function () {
+        if (isEmpty()) {
+            $upload.upload({
+                url: 'student/uploadHomework',
+                data: {myObj: $scope.myModelObj},
+                file: $scope.files[0]
+            }).success(function (data) {
+                if (data['succeed']) {
+                    notify('上传成功!', 'success');
+                } else {
+                    notify('上传失败!', 'danger');
+                }
+            }).error(function (error) {
+                console.log(error);
+            })
+        }
+    };
+    
+    function isEmpty() {
+        if ($scope.files) {
+            notify('请先选择文件!', 'danger');
+            return false;
+        } else {
+            return true;
+        }
+    }
+});

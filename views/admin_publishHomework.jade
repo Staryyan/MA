@@ -31,12 +31,6 @@ append content
                             .input-group.form-group
                                 .fg-line
                                     input.form-control(type='text', placeholder='Url', ng-model='url')
-                        p.c-black.f-500.m-b-20 开始时间
-                        .input-group.form-group
-                            span.input-group-addon
-                                i.zmdi.zmdi-calendar
-                            .dtp-container.fg-line
-                                input#beginTime.form-control.date-time-picker(type='text', placeholder='Click here...')
                         p.c-black.f-500.m-b-20 结束时间
                         .input-group.form-group
                             span.input-group-addon
@@ -45,10 +39,10 @@ append content
                                 input#deadline.form-control.date-time-picker(type='text', placeholder='Click here...')
                         button.btn.btn-success.btn-icon-text.waves-effect(ng-click='submit()')
                             i.zmdi.zmdi-check
-                            | Submit
+                            | 上传
                         button.btn.btn-danger.btn-icon-text.waves-effect(ng-click='cancel()')
                             i.zmdi.zmdi-delete
-                            | Cancel
+                            | 取消
 append javascripts
      script(src='../templates/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js')
      script(src='../templates/vendors/bower_components/typeahead.js/dist/typeahead.bundle.min.js')

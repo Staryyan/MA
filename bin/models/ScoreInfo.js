@@ -28,7 +28,7 @@ ScoreInfoSchema.statics.finishHomework = function (homeworkId, cb) {
             var maxScore = _.max(scores);
             var record = new ScoreInfo({
                 homeworkId: homeworkId,
-                state: scores.length,
+                size: scores.length,
                 average: averageScore,
                 max: maxScore
             });
@@ -57,6 +57,18 @@ ScoreInfoSchema.statics.getAverageScoreByHomeworkId = function (homeworkId, cb) 
         }
     }).catch(function (error) {
         console.log(error);
+        cb({'succeed': false, 'error': error});
+    });
+};
+
+ScoreInfoSchema.statics.getAllScoreInfo = function (cb) {
+    this.find().then(function (records) {
+        if (records) {
+            cb({'succeed': true, 'data': records});
+        } else {
+            cb({'succeed': false});
+        }
+    }).catch(function (error) {
         cb({'succeed': false, 'error': error});
     });
 };

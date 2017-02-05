@@ -35,6 +35,17 @@ router.get('/student_home', function (request, response) {
   response.render('student_home');
 });
 
+router.get('/TA_evaluate', function (request, response) {
+  response.render('TA_evaluate', {homeworksList: [
+    {homeworkId: '1', studentId: '15331348', name: '颜泽鑫', score: '99', comment: ''},
+    {homeworkId: '1', studentId: '15331349', name: '颜泽鑫', score: '99', comment: ''},
+    {homeworkId: '1', studentId: '15331340', name: '颜泽鑫', score: '99', comment: ''},
+    {homeworkId: '1', studentId: '15331341', name: '颜泽鑫', score: '99', comment: ''},
+    {homeworkId: '1', studentId: '15331342', name: '颜泽鑫', score: '99', comment: ''},
+    {homeworkId: '1', studentId: '15331343', name: '颜泽鑫', score: '99', comment: ''},
+    {homeworkId: '1', studentId: '15331344', name: '颜泽鑫', score: '99', comment: ''}]});
+});
+
 router.get('/profile', function (request, response) {
   var userCookie = request.cookies.user;
   console.log(userCookie);

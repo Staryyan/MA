@@ -1,0 +1,116 @@
+//
+   Created by yanzexin on 04/02/2017.
+   All right reserved. 12:05 PM
+
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        title Material Admin
+        // Vendor CSS
+        link(href='../templates/vendors/bower_components/animate.css/animate.min.css', rel='stylesheet')
+        link(href='../templates/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.css', rel='stylesheet')
+        link(href='../templates/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css', rel='stylesheet')
+        link(href='../templates/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css', rel='stylesheet')
+        link(href='../templates/vendors/bootgrid/jquery.bootgrid.min.css', rel='stylesheet')
+        link(href='../templates/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.css', rel='stylesheet')
+        link(href='../templates/vendors/bower_components/nouislider/distribute/jquery.nouislider.min.css', rel='stylesheet')
+        link(href='../templates/vendors/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css', rel='stylesheet')
+        link(href='../templates/vendors/farbtastic/farbtastic.css', rel='stylesheet')
+        link(href='../templates/vendors/bower_components/chosen/chosen.min.css', rel='stylesheet')
+        link(href='../templates/vendors/summernote/dist/summernote.css', rel='stylesheet')
+        // CSS
+        link(href='../templates/css/app.min.1.css', rel='stylesheet')
+        link(href='../templates/css/app.min.2.css', rel='stylesheet')
+        block stylesheets
+    body
+        header#header.clearfix(data-current-skin='blue')
+            ul.header-inner
+                li#menu-trigger(data-trigger='#sidebar')
+                    .line-wrap
+                        .line.top
+                        .line.center
+                        .line.bottom
+                li.logo.hidden-xs
+                    a(href='index.html') Material Admin
+        section#main
+            aside#sidebar.sidebar.c-overflow
+                .profile-menu
+                    a(href='')
+                        .profile-pic
+                            img(src='img/profile-pics/1.jpg', alt='')
+                        .profile-info
+                            | Malinda Hollaway
+                            i.zmdi.zmdi-caret-down
+                    ul.main-menu
+                        li
+                            a(href='/profile')
+                                i.zmdi.zmdi-account
+                                |  View Profile
+                        li
+                            a(href='/logout')
+                                i.zmdi.zmdi-time-restore
+                                |  Logout
+                ul.main-menu
+                    li
+                        a(href='/TA_home')
+                            i.zmdi.zmdi-home
+                            |  Home
+                    li.menu
+                        a(href='/TA_evaluate')
+                            i.zmdi.zmdi-view-list
+                            |  Evaluate
+                    li
+                        a(href='/')
+                            i.zmdi.zmdi-calendar
+                            |  Calendar
+            section#content
+                div#container
+                    block content
+        footer#footer
+            | Copyright © 2015 Material Admin
+            ul.f-menu
+                li
+                    a(href='') Home
+                li
+                    a(href='') Dashboard
+                li
+                    a(href='') Reports
+                li
+                    a(href='') Support
+                li
+                    a(href='') Contact
+        // Page Loader
+        .page-loader
+            .preloader.pls-blue
+                svg.pl-circular(viewbox='25 25 50 50')
+                    circle.plc-path(cx='50', cy='50', r='20')
+                p Please wait...
+        script(src='../templates/vendors/bower_components/jquery/dist/jquery.min.js')
+        script(src='../templates/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js')
+        script(src='../templates/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')
+        script(src='../templates/vendors/bower_components/Waves/dist/waves.min.js')
+        script(src='../templates/vendors/bootstrap-growl/bootstrap-growl.min.js')
+        script(src='../templates/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js')
+        script(src='../templates/vendors/bootstrap-wizard/jquery.bootstrap.wizard.min.js')
+
+        script(src='../templates/vendors/bower_components/moment/min/moment.min.js')
+        script(src='../templates/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.js')
+        script(src='../templates/vendors/bower_components/nouislider/distribute/jquery.nouislider.all.min.js')
+        script(src='../templates/vendors/bower_components/typeahead.js/dist/typeahead.bundle.min.js')
+        script(src='../templates/vendors/summernote/dist/summernote-updated.min.js')
+
+        script(src='../templates/vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js')
+        script(src='../templates/vendors/bower_components/chosen/chosen.jquery.min.js')
+        script(src='../templates/vendors/fileinput/fileinput.min.js')
+        script(src='../templates/vendors/input-mask/input-mask.min.js')
+        script(src='../templates/vendors/farbtastic/farbtastic.min.js')
+        script(src='../templates/vendors/bootgrid/jquery.bootgrid.updated.min.js')
+
+        script(src='../templates/js/functions.js')
+        script(src='../templates/js/demo.js')
+        script(src='../javascripts/notify.js')
+        script(src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js" type="text/javascript")
+        block javascripts

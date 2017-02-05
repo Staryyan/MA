@@ -9,6 +9,7 @@ var Schema = mongoose.Schema;
 var ScoreSchema = new Schema({
     homeworkId: String,
     studentId: String,
+    comment: String,
     score: Number,
     files: String
 });
@@ -31,6 +32,7 @@ ScoreSchema.statics.handInHomework = function (will_score, cb) {
             var score = new Score({
                 homeworkId: will_score.homeworkId,
                 studentId: will_score.studentId,
+                comment: '',
                 score: 0,
                 files: will_score.files
             });
@@ -52,6 +54,7 @@ ScoreSchema.statics.setScore = function (will_score, cb) {
     this.findOne({homeworkId: will_score.homeworkId, studentId: will_score.studentId}).then(function (record) {
         if (record) {
             record.score = will_score.score;
+            record.comment = will_score.comment;
             record.save().then(function (data) {
                 if (data) {
                     cb({'succeed': true});
