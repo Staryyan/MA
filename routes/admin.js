@@ -49,11 +49,11 @@ router.post('/submitUser', function (request, response) {
 
 router.post('/publishHomework', function (request, response) {
     console.log('publishHomework');
-    Homework.publish(
-        {title: request.body.title,
-            beginTime: request.body.beginTime,
-            deadline: request.body.deadline,
-            url: request.body.url
+    Homework.publish({
+        title: request.body.title,
+        beginTime: request.body.beginTime,
+        deadline: request.body.deadline,
+        url: request.body.url
     }, function (data) {
             console.log(data);
             response.json({'succeed': true});

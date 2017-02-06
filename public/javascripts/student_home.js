@@ -119,19 +119,38 @@ $(document).ready(function(){
 var app = angular.module('studentHomeApp', ['angularFileUpload']);
 
 app.controller('studentHomeCtrl', function ($scope, $upload, $http) {
+    loadHomework();
+
+    loadScore();
+
+    $scope.init = function (studentId) {
+        $scope.studentId = studentId;
+    };
+    
     $scope.onFileSelect = function ($files) {
         $scope.files = $files;
+    };
+    
+    $scope.willUploadFile = function (homeworkId) {
+        $scope.willUploadFileHomeworkId = homeworkId;
     };
     
     $scope.upload = function () {
         if (isEmpty()) {
             $upload.upload({
                 url: 'student/uploadHomework',
-                data: {myObj: $scope.myModelObj},
-                file: $scope.files[0]
+                data: {
+                    studentId: $scope.studentId,
+                    homeworkId: $scope.willUploadFileHomeworkId
+                },
+                file: $scope.files[0],
+                method: 'POST'
             }).success(function (data) {
+                console.log(data);
                 if (data['succeed']) {
                     notify('上传成功!', 'success');
+                    uploadLocalScore(data['data']);
+                    $('#uploadFiles').modal('hide');
                 } else {
                     notify('上传失败!', 'danger');
                 }
@@ -142,11 +161,73 @@ app.controller('studentHomeCtrl', function ($scope, $upload, $http) {
     };
     
     function isEmpty() {
-        if ($scope.files) {
+        if (!$scope.files) {
             notify('请先选择文件!', 'danger');
             return false;
         } else {
             return true;
         }
     }
+
+    function loadHomework() {
+        $http({
+            url: '/student/loadHomework',
+            method: 'GET'
+        }).success(function (data) {
+            if (data['succeed']) {
+                $scope.homeworkList = data['data'];
+            } else {
+                console.log(data['error']);
+            }
+        }).error(function (error) {
+            console.log(error);
+            notify('出错了,请联系管理员!', 'danger');
+        })
+    }
+
+    function loadScore() {
+        $http({
+            url: '/student/loadScore',
+            data: {
+                studentId: $scope.studentId
+            },
+            method: 'POST'
+        }).success(function (data) {
+            if (data['succeed']) {
+                $scope.scoreList = data['data'];
+                console.log($scope.scoreList);
+            } else {
+                console.log(data['error']);
+            }
+        }).error(function (error) {
+            console.log(error);
+            notify('出错了!请联系管理员!', 'danger');
+        })
+    }
+
+    $scope.getDownloadUrl = function (homeworkId, homeworkName) {
+        var homework = getScoreByHomeworkId(homeworkId);
+        if (homework) {
+            return "/student/getFiles?files=" + homework['files'] + "&homeworkName=" + homeworkName;
+        }
+    };
+
+    function getScoreByHomeworkId(homeworkId) {
+        for (var each of $scope.scoreList) {
+            if (each['homeworkId'] == homeworkId) {
+                return each;
+            }
+        }
+        return null;
+    }
+
+    function uploadLocalScore(record) {
+        var list = $scope.scoreList;
+        for (var each in list) {
+            if (list[each]['homeworkId'] == record['homeworkId']) {
+                list[each]['files'] = record['files'];
+            }
+        }
+    }
+
 });

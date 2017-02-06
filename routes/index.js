@@ -32,7 +32,7 @@ router.get('/admin_scores', function (request, response) {
 });
 
 router.get('/student_home', function (request, response) {
-  response.render('student_home');
+  response.render('student_home', getCookieInfo(request));
 });
 
 router.get('/TA_evaluate', function (request, response) {
@@ -47,8 +47,6 @@ router.get('/TA_evaluate', function (request, response) {
 });
 
 router.get('/profile', function (request, response) {
-  var userCookie = request.cookies.user;
-  console.log(userCookie);
   if (userCookie.status == 'admin') {
     href = 'admin_profile';
   } else if (userCookie.status == 'TA') {
@@ -56,7 +54,7 @@ router.get('/profile', function (request, response) {
   } else {
     href = 'student_profile';
   }
-  response.render(href, {studentId: userCookie.studentId, name: userCookie.name, email: userCookie.email});
+  response.render(href, getCookieInfo(request));
 });
 
 router.get('/home', function (request, response) {
@@ -73,5 +71,14 @@ router.get('/home', function (request, response) {
   response.writeHead('302', {'location': href});
   response.end();
 });
+
+function getCookieInfo(request) {
+  var userCookie = request.cookies.user;
+  return {
+    studentId: userCookie.studentId,
+    name: userCookie.name,
+    email: userCookie.email
+  };
+}
 
 module.exports = router;

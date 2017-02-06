@@ -2,7 +2,7 @@
  * Created by yanzexin on 04/02/2017.
  * All right reserved @Stary 04/02/2017
  */
-var Score = require('./Scores');
+var Score = require('./Score');
 var ScoreInfo = require('./ScoreInfo');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/MA');

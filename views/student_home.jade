@@ -4,7 +4,7 @@
 extends student_layout
 
 append content
-    .container(ng-app='studentHomeApp' ng-controller='studentHomeCtrl')
+    .container(ng-app='studentHomeApp' ng-controller='studentHomeCtrl' ng-init='init(#{studentId})')
         .col-md-12
             .card
                 .card-header
@@ -13,26 +13,28 @@ append content
                     #bar-chart.flot-chart
                     .flc-bar
         .row
-            .col-sm-4
-                .card
+            .col-sm-4(ng-repeat='each in homeworkList' ng-switch="each['state']")
+                .card(ng-switch-when="running")
                     .card-header.bgm-red
                         h2
-                            | {{Homework}} Finished
+                            | {{each['title']}}
                             small
                         ul.actions
                             li
-                                a(href='')
+                                a(href="{{getDownloadUrl(each['_id'], each['title'])}}")
                                     i.zmdi.zmdi-download
                             li.dropdown
                                 a(href='', data-toggle='dropdown')
                                     i.zmdi.zmdi-more-vert
                                 ul.dropdown-menu.dropdown-menu-right
                                     li
-                                        a(href='') {{homework website}}
+                                        a(href="{{each['url']}}") 作业链接
                                     li
                                         a(href='') Others
+                        a.btn.bgm-red.btn-float.waves-effect(href='#uploadFiles', data-toggle='modal' ng-click="willUploadFile(each['_id'])")
+                            i.zmdi.zmdi-plus
                     .card-body.card-padding
-                        | Deadline: {{deadline}}
+                        | 结束时间: {{each['deadline']}}
                     #uploadFiles.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
                         .modal-dialog
                             .modal-content
@@ -52,31 +54,29 @@ append content
                                                         span.fileinput-filename
                                                         a.close.fileinput-exists(href='#', data-dismiss='fileinput') ×
                                     .modal-footer
-                                        button.btn.btn-link(type='button' ng-click='upload()') 上传
+                                        button.btn.btn-link(type='button' ng-click="upload()") 上传
                                         button.btn.btn-link(type='button', data-dismiss='modal') 取消
 
-            .col-sm-4
-                .card
+                .card(ng-switch-when="finish")
                     .card-header.ch-alt.m-b-20
                         h2
-                            | {{Homework}}
+                            | {{each['title']}}
                             small
                         ul.actions
                             li
-                                a(href='')
+                                button(ng-click="downloadFiles(downloadFiles(1))")
                                     i.zmdi.zmdi-download
                             li.dropdown
                                 a(href='', data-toggle='dropdown')
                                     i.zmdi.zmdi-more-vert
                                 ul.dropdown-menu.dropdown-menu-right
                                     li
-                                        a(href='') {{homework website}}
+                                        a(href="{{each['url']}}") 作业链接
                                     li
                                         a(href='') Others
-                        a.btn.bgm-red.btn-float.waves-effect(href='#uploadFiles', data-toggle='modal')
-                            i.zmdi.zmdi-plus
                     .card-body.card-padding
                         | Deadline: {{deadline}}
+
 append javascripts
     script(src='../templates/vendors/bower_components/flot/jquery.flot.js')
     script(src='../templates/vendors/bower_components/flot/jquery.flot.resize.js')

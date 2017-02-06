@@ -5,7 +5,7 @@
 'use strict';
 var mongoose = require('mongoose');
 var _ = require('underscore');
-var Score = require('./Scores');
+var Score = require('./Score');
 var Schema = mongoose.Schema;
 var ScoreInfoSchema = new Schema({
     homeworkId: String,

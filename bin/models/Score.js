@@ -5,6 +5,7 @@
 'use strict';
 var mongoose = require('mongoose');
 var _ = require('underscore');
+var fs = require('fs');
 var Schema = mongoose.Schema;
 var ScoreSchema = new Schema({
     homeworkId: String,
@@ -15,12 +16,18 @@ var ScoreSchema = new Schema({
 });
 
 ScoreSchema.statics.handInHomework = function (will_score, cb) {
-    this.findOne({homeworkId: will_score.homeworkId, studentId: will_score.studentId}, function (record) {
+    this.findOne({
+        homeworkId: will_score.homeworkId,
+        studentId: will_score.studentId
+    }, function (error, record) {
         if (record) {
+            fs.unlink(record.files, function () {
+                console.log('delete original files');
+            });
             record.files = will_score.files;
             record.save().then(function (data) {
                 if (data) {
-                    cb({'succeed': true});
+                    cb({'succeed': true, 'data': data});
                 } else {
                     cb({'succeed': false});
                 }
@@ -38,7 +45,7 @@ ScoreSchema.statics.handInHomework = function (will_score, cb) {
             });
             score.save().then(function (data) {
                 if (data) {
-                    cb({'succeed': true});
+                    cb({'succeed': true, 'data': data});
                 } else {
                     cb({'succeed': false});
                 }
@@ -77,19 +84,19 @@ ScoreSchema.statics.getAllScores = function (homeworkId, cb) {
         if (records) {
             cb({'succeed': true, 'data': records});
         } else {
-            cb({'succeed': false});
+            cb({'succeed': false, 'data': null});
         }
     }).catch(function (error) {
         cb({'succeed': false, 'error': error});
     });
 };
 
-ScoreSchema.statics.getAllScoresByStudentId = function (user, cb) {
-    this.find({studentId: user.studentId}).then(function (records) {
+ScoreSchema.statics.getAllScoresByStudentId = function (studentId, cb) {
+    this.find({studentId: studentId}).then(function (records) {
         if (records) {
             cb({'succeed': true, 'data': records});
         } else {
-            cb({'succeed': false});
+            cb({'succeed': false, 'error': '空数据'});
         }
     }).catch(function (error) {
         console.log(error);
