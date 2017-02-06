@@ -34,7 +34,7 @@ append content
                         a.btn.bgm-red.btn-float.waves-effect(href='#uploadFiles', data-toggle='modal' ng-click="willUploadFile(each['_id'])")
                             i.zmdi.zmdi-plus
                     .card-body.card-padding
-                        | 结束时间: {{each['deadline']}}
+                        | 结束时间: {{convertFormat(each['deadline'])}}
                     #uploadFiles.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
                         .modal-dialog
                             .modal-content
@@ -64,7 +64,7 @@ append content
                             small
                         ul.actions
                             li
-                                button(ng-click="downloadFiles(downloadFiles(1))")
+                                a(href="{{getDownloadUrl(each['_id'], each['title'])}}")
                                     i.zmdi.zmdi-download
                             li.dropdown
                                 a(href='', data-toggle='dropdown')
@@ -76,6 +76,25 @@ append content
                                         a(href='') Others
                     .card-body.card-padding
                         | Deadline: {{deadline}}
+                .card(ng-switch-when="evaluating")
+                    .card-header.bgm-blue
+                        h2
+                            | {{each['title']}}
+                            small
+                        ul.actions
+                            li
+                                a(href="{{getDownloadUrl(each['_id'], each['title'])}}")
+                                    i.zmdi.zmdi-download
+                            li.dropdown
+                                a(href='', data-toggle='dropdown')
+                                    i.zmdi.zmdi-more-vert
+                                ul.dropdown-menu.dropdown-menu-right
+                                    li
+                                        a(href="{{each['url']}}") 作业链接
+                                    li
+                                        a(href='') Others
+                    .card-body.card-padding
+                        | 还在评测中,请静候.
 
 append javascripts
     script(src='../templates/vendors/bower_components/flot/jquery.flot.js')

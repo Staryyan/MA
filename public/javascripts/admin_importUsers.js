@@ -19,6 +19,7 @@ app.controller('importUserCtrl', function ($scope, $upload, $http) {
     };
     
     $scope.submitData = function () {
+        console.log($scope.files);
         if ($scope.files) {
             $http({
                 url: '/admin/submitUser',

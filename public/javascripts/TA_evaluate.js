@@ -3,22 +3,167 @@
  * All right reserved @Stary 04/02/2017
  */
 
-$(document).ready(function () {
-    //Command Buttons
-    $("#data-table-command").bootgrid({
-        // css: {
-        //     icon: 'zmdi icon',
-        //     iconColumns: 'zmdi-view-module',
-        //     iconDown: 'zmdi-expand-more',
-        //     iconRefresh: 'zmdi-refresh',
-        //     iconUp: 'zmdi-expand-less'
-        // },
-        formatters: {
-            "commands": function(column, row) {
-                var html = "<button type=\"button\" class=\"btn btn-icon command-edit waves-effect waves-circle\" data-row-id=\"" + row.id + "\" onclick=\"trys(" + row.id + ")\"><span class=\"zmdi zmdi-edit\"></span></button> " +
-                    "<button type=\"button\" class=\"btn btn-icon command-delete waves-effect waves-circle\" data-row-id=\"" + row.id + "\" onclick=\"trys(" + row.id + ", #{homeworksList})\"><span class=\"zmdi zmdi-download\"></span></button>";
-                return html;
+var app = angular.module('evaluateApp', []);
+
+app.controller('evaluateCtrl', function ($scope, $http, $location) {
+    loadEvaluateHomeworkList();
+
+    function loadEvaluateHomeworkList() {
+        $http({
+            url: 'TA/evaluateHomeworkList',
+            method: 'POST'
+        }).success(function (data) {
+            if (data['succeed']) {
+                if (data['data']) {
+                    notify('作业加载成功!', 'success');
+                    console.log(data['data']);
+                    $scope.evaluateHomeworkList = data['data'];
+                    $scope.selectedHomeworkTitle = data['data'][0]['title'];
+                    loadAllHomeworkList();
+                } else {
+                    notify('没有作业需要评测!', 'warn');
+                }
+            } else {
+                notify('出错了!请联系管理员!', 'danger');
+            }
+        }).error(function (error) {
+            console.log(error);
+            notify('出错了!请联系管理员!', 'danger');
+        })
+    }
+    
+    function loadAllHomeworkList() {
+        $scope.allHomeworkList = [];
+        var list = $scope.evaluateHomeworkList;
+        for (var each of list) {
+            $http({
+                url: 'TA/homeworkList',
+                data: {
+                    homeworkId: each['_id']
+                },
+                method: 'POST'
+            }).success(function (data) {
+                if (data['succeed']) {
+                    if (data['data']) {
+                        $scope.allHomeworkList.push(data['data']);
+                    }
+                }
+                if (each == list[list.length - 1]) {
+                    getLocalHomeworkList();
+                }
+            }).error(function (error) {
+                console.log(error);
+                notify('出错了!请联系管理员!', 'danger');
+            })
+        }
+    }
+    
+    $scope.getDownloadUrl = function (studentId, filePath) {
+        return "/TA/getFiles?files=" + filePath 
+            + "&studentId=" + studentId;
+    };
+
+    function getLocalHomeworkList() {
+        getSelectedHomeworkId();
+        for (var each of $scope.allHomeworkList) {
+            if (each[0]['homeworkId'] == $scope.selectedHomeworkId) {
+                $scope.localHomeworkList = each;
+                console.log($scope.localHomeworkList);
             }
         }
-    });
+    }
+
+    function getSelectedHomeworkId() {
+        for (var each of $scope.evaluateHomeworkList) {
+            if (each['title'] == $scope.selectedHomeworkTitle) {
+                $scope.selectedHomeworkId = each['_id'];
+            }
+        }
+    }
+
+    $scope.setScore = function (_id, $event) {
+        for (var each of $scope.localHomeworkList) {
+            if (each['_id'] == _id) {
+                each['score'] = $event.target.value;
+                break;
+            }
+        }
+    };
+
+    $scope.setComment = function (_id, $event) {
+        for (var each of $scope.localHomeworkList) {
+            if (each['_id'] == _id) {
+                each['comment'] = $event.target.value;
+                break;
+            }
+        }
+    };
+
+    $scope.saveEvaluate = function (_id) {
+        for (var each of $scope.localHomeworkList) {
+            if (each['_id'] == _id) {
+                $http({
+                    url: 'TA/saveEvaluate',
+                    data: {
+                        score: each
+                    },
+                    method: 'POST'
+                }).success(function (data) {
+                    if (data['succeed']) {
+                        notify('评测成功!', 'success');
+                    } else {
+                        notify('评测失败!请重试!', 'danger');
+                    }
+                }).error(function (error) {
+                    notify('出错了! 请联系管理员!', 'danger');
+                    console.log(error);
+                })
+            }
+        }
+    };
+    
+    $scope.finish = function () {
+        if (!hasEmpty()) {
+            $http({
+                url: 'TA/finishEvaluating',
+                data: {
+                    homeworkId: $scope.selectedHomeworkId
+                },
+                method: 'POST'
+            }).success(function (data) {
+                if (data['succeed']) {
+                    notify('成功评测完所有作业!', 'success');
+                    setTimeout('window.location.href="./TA_evaluate";', 1000);
+                }
+            }).error(function (error) {
+                notify('出错了!请联系管理员!', 'danger');
+                console.log(error);
+            })
+        }
+    };
+
+    function hasEmpty() {
+        for (var each of $scope.localHomeworkList) {
+            if (!each['score'] || !each['comment']) {
+                notify('有作业还没有评测,或则还没有给出分数或评论!', 'danger');
+                return true;
+            }
+        }
+        return false;
+    }
+
+    $scope.recheck = function () {
+    };
 });
+
+function keyPress(value) {
+    var keyCode = event.keyCode;
+    if (!(value && value == 0) && (keyCode >= 48 && keyCode <= 57)) {
+        if (parseInt(value) > 10) {
+            event.returnValue = false;
+        } else event.returnValue = !(parseInt(value) == '10' && keyCode != 48);
+    } else {
+        event.returnValue = false;
+    }
+}
+

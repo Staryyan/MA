@@ -230,4 +230,9 @@ app.controller('studentHomeCtrl', function ($scope, $upload, $http) {
         }
     }
 
+    $scope.convertFormat = function (time) {
+        console.log(moment(time).fromNow());
+        return moment(time).fromNow();
+    };
+
 });

@@ -21,7 +21,7 @@ var UserSchema = Schema({
 
 UserSchema.statics.logInCheck = function (user, cb) {
     this.findUserByStudentId(user.studentId, function (data) {
-        if (!data) {
+        if (!data.length) {
             cb({'succeed': false, 'error': '用户不存在.'});
         } else {
             if (data[0]['password'] == parsePassword(user.password)) {

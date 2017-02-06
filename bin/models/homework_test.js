@@ -7,13 +7,13 @@ var Homework = require('./Homework');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/MA');
 
-Homework.publish({
-    title: 'test',
-    deadline: '2017-02-05T16:42:11+08:00',
-    url: 'tttt',
-    state: 'running'
-}, function (data) {
-    console.log(data);
-});
+// Homework.publish({
+//     title: 'test',
+//     deadline: '2017-02-05T16:42:11+08:00',
+//     url: 'tttt',
+//     state: 'running'
+// }, function (data) {
+//     console.log(data);
+// });
 
-
+Homework.afterEvaluate("589838956f22b7296b45ffac");

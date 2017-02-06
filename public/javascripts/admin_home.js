@@ -53,6 +53,9 @@ app.controller('adminHomeCtrl', function ($scope, $http) {
             average: 0,
             max: 0
         };
-    }
+    };
 
+    $scope.convertFormat = function (time) {
+        return moment(time).fromNow();
+    }
 });

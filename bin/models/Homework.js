@@ -30,7 +30,7 @@ HomeworkSchema.statics.publish = function (will_homework, cb) {
 };
 
 function updateState(data) {
-    data['state'] = 'finish';
+    data['state'] = 'evaluating';
     data.save().then(function (data) {
         console.log(data);
     });
@@ -55,6 +55,44 @@ HomeworkSchema.statics.getHomework = function (cb) {
         cb({'succeed': false, 'error': error});
     });
 };
+
+HomeworkSchema.statics.afterEvaluate = function (homeworkId) {
+    this.findOne({_id: homeworkId}).then(function (record) {
+        if (record) {
+            console.log(record);
+            record['state'] = 'finish';
+            record.save();
+        }
+    }).catch(function (error) {
+        console.log(error);
+    })
+};
+
+HomeworkSchema.statics.getEvaluatingHomeworkList = function (cb) {
+    this.find({state: 'evaluating'}).then(function (record) {
+        if (record) {
+            cb({'succeed': true, 'data': record});
+        } else {
+            cb({'succeed': false});
+        }
+    }).catch(function (error) {
+        console.log(error);
+        cb({'succeed': false, 'error': error});
+    });
+};
+
+HomeworkSchema.statics.updateHomework = function () {
+    this.find().then(function (records) {
+        for (var each of records) {
+            if (getDifferent(each['deadline']) <= 0 && each['state'] == 'running') {
+                each['state'] = 'evaluating';
+                each.save();
+            }
+        }
+    });
+};
+
+
 
 var Homework = mongoose.model('Homework', HomeworkSchema);
 

@@ -1,0 +1,72 @@
+//
+   Created by yanzexin on 06/02/2017.
+   All right reserved. 11:49 AM
+
+extends TA_layout
+
+append content
+    .container(ng-app='adminHomeApp', ng-controller='adminHomeCtrl')
+        .row
+            .col-sm-4(ng-repeat='each in homeworkList' ng-switch="each['state']")
+                .card(ng-switch-when="running")
+                    .card-header.bgm-red
+                        h2
+                            | {{each['title']}}
+                            small
+                        ul.actions
+                            li.dropdown
+                                a(href='', data-toggle='dropdown')
+                                    i.zmdi.zmdi-more-vert
+                                ul.dropdown-menu.dropdown-menu-right
+                                    li
+                                        a(href='{{each["url"]}}') 作业链接
+                                    li
+                                        a(href='') 其他
+                    .card-body.card-padding
+                        | {{convertFormat(each['deadline'])}}
+                .card(ng-switch-when="finish")
+                    .card-header.ch-alt.m-b-20
+                        h2
+                            | {{each['title']}}
+                            small
+                        ul.actions
+                            li
+                                a(href='')
+                                    i.zmdi.zmdi-download
+                            li.dropdown
+                                a(href='', data-toggle='dropdown')
+                                    i.zmdi.zmdi-more-vert
+                                ul.dropdown-menu.dropdown-menu-right
+                                    li
+                                        a(href='{{each["url"]}}') 作业链接
+                                    li
+                                        a(href='') 所有学生情况
+                                    li
+                                        a(href='') Others
+                    .card-body.card-padding
+                        h5 提交总次数: {{getInfoById(each['_id'])['size']}} 次
+                        h5 平均分: {{getInfoById(each['_id'])['average']}} 分
+                        h5 最高分: {{getInfoById(each['_id'])['max']}} 分
+
+                .card(ng-switch-when="evaluating")
+                    .card-header.bgm-blue
+                        h2
+                            | {{each['title']}}
+                            small
+                        ul.actions
+                            li
+                                a(href='')
+                                    i.zmdi.zmdi-download
+                            li.dropdown
+                                a(href='', data-toggle='dropdown')
+                                    i.zmdi.zmdi-more-vert
+                                ul.dropdown-menu.dropdown-menu-right
+                                    li
+                                        a(href='{{each["url"]}}') 作业链接
+                                    li
+                                        a(href='') Others
+                    .card-body.card-padding
+                        h5 还在评测中^-^ 请等候~
+
+append javascripts
+    script(src='../javascripts/admin_home.js')
