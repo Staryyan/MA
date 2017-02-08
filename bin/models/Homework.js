@@ -45,7 +45,7 @@ function getDifferent(deadline) {
 }
 
 HomeworkSchema.statics.getHomework = function (cb) {
-    this.find().then(function (data) {
+    this.find().sort({'_id':-1}).then(function (data) {
         if (data) {
             cb({'succeed': true, 'data': data})
         } else {
@@ -87,12 +87,14 @@ HomeworkSchema.statics.updateHomework = function () {
             if (getDifferent(each['deadline']) <= 0 && each['state'] == 'running') {
                 each['state'] = 'evaluating';
                 each.save();
+            } else if (each['state'] == 'running') {
+                setTimeout(function () {
+                    updateState(each);
+                }, getDifferent(each['deadline']));
             }
         }
     });
 };
-
-
 
 var Homework = mongoose.model('Homework', HomeworkSchema);
 
