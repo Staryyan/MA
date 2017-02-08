@@ -60,20 +60,12 @@ UserSchema.statics.findUserByStudentId = function (studentId, cb) {
 UserSchema.statics.importUserList = function (userList, status, cb) {
     var total = userList.length;
     for (var each of userList) {
-        var user = new User({
-            studentId: each['studentId'],
-            name: each['name'],
-            password: parsePassword(parsePassword(each['studentId'])),
-            email: each['email'],
-            status: status
-        });
-        user.save().then(function () {
+        each['status'] = status;
+        this.register(each, function () {
             total--;
             if (total == 0) {
                 cb();
             }
-        }).catch(function (error) {
-            cb(error);
         });
     }
 };
@@ -96,6 +88,19 @@ UserSchema.statics.changePassword = function (user, cb) {
         } else {
             cb({'succeed': false, 'error': '密码错误!'});
         }
+    });
+};
+
+UserSchema.statics.findUserByStatus = function (status, cb) {
+    this.find({status: status}).then(function (record) {
+        if (record) {
+            cb({'succeed': true, 'data': record});
+        } else {
+            cb({'succeed': false, 'data': null});
+        }
+    }).catch(function (error) {
+        console.log(error);
+        cb({'succeed': false});
     });
 };
 

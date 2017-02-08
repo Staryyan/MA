@@ -57,10 +57,26 @@ html
                         a(href='/admin_home')
                             i.zmdi.zmdi-home
                             |  Home
-                    li.menu
-                        a(href='/admin_importUsers')
+                    li.sub-menu
+                        a(href='')
                             i.zmdi.zmdi-view-list
-                            |  Users
+                            | Users
+                        ul
+                            li.sub-menu
+                                a(href='')
+                                    i.zmdi.zmdi-assignment-account
+                                    |  All Users
+                                    ul
+                                        li
+                                            a(href='/admin_viewUsers_student')
+                                                |  student
+                                        li
+                                            a(href='/admin_viewUsers_TA')
+                                                |  TA
+                            li
+                                a(href='/admin_importUsers')
+                                    i.zmdi.zmdi-edit
+                                    |  Import Users
                     li.menu
                         a(href='/admin_scores')
                             i.zmdi.zmdi-view-list
@@ -117,7 +133,7 @@ html
         script(src='../javascripts/notify.js')
         script(src='../templates/vendors/bootgrid/jquery.bootgrid.updated.min.js')
 
-        script(src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js" type="text/javascript")
+        script(src="../templates/js/angular.js" type="text/javascript")
         block javascripts
 
 

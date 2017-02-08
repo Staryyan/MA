@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 var Homework = require('../bin/models/Homework');
+var User = require('../bin/models/User');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -19,6 +20,22 @@ router.get('/logout', function (request, response) {
 
 router.get('/admin_home', function (request, response) {
   response.render('admin_home');
+});
+
+router.get('/admin_viewUsers_student', function (request, response) {
+  User.findUserByStatus('Student', function (data) {
+    if (data['succeed']) {
+      response.render('admin_viewUsers', {'userList': data['data'], 'status': 'student'});
+    }
+  })
+});
+
+router.get('/admin_viewUsers_TA', function (request, response) {
+  User.findUserByStatus('TA', function (data) {
+    if (data['succeed']) {
+      response.render('admin_viewUsers', {'userList': data['data'], 'status': 'TA'});
+    }
+  })
 });
 
 router.get('/admin_importUsers', function (request, response) {

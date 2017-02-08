@@ -1,0 +1,26 @@
+//
+   Created by yanzexin on 08/02/2017.
+   All right reserved. 8:28 PM
+
+extends admin_layout
+
+append content
+    .container
+        .card
+            .card-header
+                h2
+                    | 用户列表(#{status})
+            table#data-table-command.table.table-striped.table-vmiddle
+                thead
+                    tr
+                        th(data-column-id='id', data-type='numeric') 学号
+                        th(data-column-id='name') 名字
+                        th(data-column-id='received', data-order='desc') Email
+                tbody
+                    - for (var each of userList)
+                        tr
+                            td #{each['studentId']}
+                            td #{each['name']}
+                            td #{each['email']}
+append javascripts
+    script(src='../javascripts/admin_viewUsers.js')
