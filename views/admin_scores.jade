@@ -4,7 +4,8 @@
 extends admin_layout
 
 append content
-    .container(ng-app='adminApp' ng-controller='scoresCtrl')
+    .container(ng-app='adminApp' ng-controller='scoresCtrl'
+    ng-init="init('#{selectedTitle}', '#{JSON.stringify(homeworkList)}');")
         .card
             .card-header
                 ul.actions
@@ -16,22 +17,24 @@ append content
                     | 成绩表
                 br
                 .col-sm-3.m-b-25
-                    select.selectpicker(data-live-search='true' ng-model='selectedHomework')
-                        option(ng-repeat='each in totalHomework') {{each}}
+                    select.selectpicker(data-live-search='true' ng-model='selectedTitle')
+                        - for (var each of homeworkList)
+                            option #{each['title']}
 
             .card-body
                 .table-responsive
-                    table#data-table-basic.table.table-striped
+                    table#data-table-command.table.table-striped
                         thead
                             tr
+                                th() 排名
                                 th(data-column-id='id', data-type='numeric') 学号
-                                th(data-column-id='sender') 姓名
                                 th(data-column-id='received', data-order='desc') 成绩
                         tbody
-                            tr(ng-repeat='each in totalScores')
-                                td {{each['studentId']}}
-                                td {{each['name']}}
-                                td {{each['score']}}
+                            - for (var index = 1; index <= scoreList.length; index++)
+                                tr
+                                    td #{index}
+                                    td #{scoreList[index - 1]['studentId']}
+                                    td #{scoreList[index - 1]['score']}
 
 append javascripts
     script(src='../templates/vendors/bootgrid/jquery.bootgrid.updated.min.js')

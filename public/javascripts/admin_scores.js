@@ -4,24 +4,33 @@
  */
 var app = angular.module('adminApp', []);
 app.controller('scoresCtrl', function ($scope, $http) {
-    init();
+    data_table();
 
-    function init() {
-        loadTotalScores();
-        loadScoreBySelectedScores();
+    $scope.init = function (selectedTitle, homeworkList) {
+        $scope.selectedTitle = selectedTitle;
+        $scope.homeworkList = homeworkList;
+    };
+    
+    $scope.$watch('selectedTitle', function (newValue, oldValue) {
+        if (newValue != oldValue) {
+            var homework = getHomework(newValue);
+            if (homework) {
+                window.location.href = '/admin_scores?homeworkId=' +
+                    homework['_id'] + ';homeworkTitle=' + homework['title'];
+            }
+        }
+    });
+
+    function getHomework(homeworkName) {
+        for (var each of $scope.homeworkList) {
+            if (each['title'] == homeworkName) {
+                return each;
+            }
+        }
     }
 
-    function loadTotalScores() {
-        $scope.totalHomework = ['作业1', '作业2', '作业3'];
-        $scope.selectedHomework = $scope.totalHomework[0];
+    function data_table() {
+        $("#data-table-command").bootgrid({
+        });
     }
-
-    function loadScoreBySelectedScores() {
-        $scope.totalScores = [{
-            studentId: '15331348',
-            name: '颜泽鑫',
-            score: '100'
-        }];
-    }
-
 });

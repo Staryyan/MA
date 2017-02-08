@@ -11,7 +11,7 @@ app.controller('adminHomeCtrl', function ($scope, $http) {
 
     function loadHomework() {
         $http({
-            url: 'admin/loadHomework',
+            url: 'users/loadHomework',
             method: 'POST'
         }).success(function (data) {
             if (data['succeed']) {
@@ -27,7 +27,7 @@ app.controller('adminHomeCtrl', function ($scope, $http) {
 
     function loadScoreInfo() {
         $http({
-            url: 'admin/loadScoreInfo',
+            url: 'users/loadScoreInfo',
             method: 'POST'
         }).success(function (data) {
             if (data['succeed']) {

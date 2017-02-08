@@ -44,8 +44,14 @@ function getDifferent(deadline) {
     return moment(deadline).diff(moment(getNow()));
 }
 
-HomeworkSchema.statics.getHomework = function (cb) {
-    this.find().sort({'_id':-1}).then(function (data) {
+HomeworkSchema.statics.getHomework = function (state, cb) {
+    var modal;
+    if (state) {
+        modal = this.find({state: state});
+    } else {
+        modal = this.find();
+    }
+    modal.sort({'_id':-1}).then(function (data) {
         if (data) {
             cb({'succeed': true, 'data': data})
         } else {

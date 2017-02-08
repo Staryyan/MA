@@ -75,7 +75,9 @@ append content
                                     li
                                         a(href='') Others
                     .card-body.card-padding
-                        | Deadline: {{deadline}}
+                        h5 你的分数: {{getScoreById(each['_id'])['score']}} 分
+                        h5 平均分: {{getScoreInfoById(each['_id'])['average']}} 分
+                        h5 最高分: {{getScoreInfoById(each['_id'])['max']}} 分
                 .card(ng-switch-when="evaluating")
                     .card-header.bgm-blue
                         h2
@@ -102,6 +104,6 @@ append javascripts
     script(src='../templates/vendors/bower_components/flot.tooltip/js/jquery.flot.tooltip.min.js')
     script(src='../templates/vendors/bower_components/flot-orderBars/js/jquery.flot.orderBars.js')
     script(src='../templates/vendors/bower_components/flot-orderBars/js/jquery.flot.orderBars.js')
-    script(src="http://apps.bdimg.com/libs/angular-file-upload/1.3.1/angular-file-upload.min.js")
+    script(src="../templates/js/angular-file-upload.min.js")
 
     script(src='../javascripts/student_home.js')

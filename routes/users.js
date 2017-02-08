@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
+
 var User = require('../bin/models/User');
+var Homework = require('../bin/models/Homework');
+var ScoreInfo = require('../bin/models/ScoreInfo');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -30,6 +33,19 @@ router.post('/changePassword', function (request, response) {
         originalPassword: request.body.originalPassword,
         newPassword: request.body.newPassword},
       function (data) {
+    response.json(data);
+  });
+});
+
+router.post('/loadHomework', function (request, response) {
+  Homework.getHomework(undefined, function (data) {
+    response.json(data);
+  });
+});
+
+router.post('/loadScoreInfo', function (request, response) {
+  console.log('loadScoreInfo');
+  ScoreInfo.getAllScoreInfo(function (data) {
     response.json(data);
   });
 });

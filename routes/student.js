@@ -41,13 +41,6 @@ router.post('/uploadHomework', function (request, response) {
     });
 });
 
-router.get('/loadHomework', function (request, response) {
-    console.log('loadHomework');
-    Homework.getHomework(function (data) {
-        response.json(data);
-    });
-});
-
 router.get('/getFiles', function (request, response) {
     console.log('getFiles');
     var query = request.query;
@@ -59,8 +52,7 @@ router.get('/getFiles', function (request, response) {
 
 router.post('/loadScore', function (request, response) {
     console.log('loadScore');
-    var cookies = request.cookies.user;
-    Score.getAllScoresByStudentId(cookies.studentId, function (data) {
+    Score.getAllScoresByStudentId(request.body.studentId, function (data) {
         response.json(data);
     });
 });

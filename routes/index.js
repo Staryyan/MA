@@ -3,6 +3,7 @@ var router = express.Router();
 
 var Homework = require('../bin/models/Homework');
 var User = require('../bin/models/User');
+var Score = require('../bin/models/Score');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -47,8 +48,40 @@ router.get('/admin_publishHomework', function (request, response) {
 });
 
 router.get('/admin_scores', function (request, response) {
-  response.render('admin_scores');
+  getHomeworkList(function (data) {
+    if (data['succeed']) {
+      if (request.query.homeworkId) {
+        Score.getAllScores(request.query.homeworkId, function (records) {
+          if (records['succeed']) {
+            response.render('admin_scores', {
+              homeworkList: data['data'],
+              scoreList: records['data'],
+              selectedTitle: request.query.homeworkTitle
+            });
+          }
+        });
+      } else {
+        Score.getAllScores(data['data'][0]['_id'], function (records) {
+          if (records['succeed']) {
+            response.render('admin_scores', {
+              homeworkList: data['data'],
+              scoreList: records['data'],
+              selectedTitle: data['data'][0]['title']
+            });
+          }
+        });
+      }
+    } else {
+      response.render('admin_scores');
+    }
+  });
 });
+
+function getHomeworkList(cb) {
+  Homework.getHomework('finish', function (data) {
+    cb(data);
+  })
+}
 
 router.get('/student_home', function (request, response) {
   response.render('student_home', getCookieInfo(request));

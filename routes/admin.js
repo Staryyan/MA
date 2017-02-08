@@ -60,19 +60,6 @@ router.post('/publishHomework', function (request, response) {
         });
 });
 
-router.post('/loadHomework', function (request, response) {
-    Homework.getHomework(function (data) {
-        response.json(data);
-    });
-});
-
-router.post('/loadScoreInfo', function (request, response) {
-    console.log('loadScoreInfo');
-    ScoreInfo.getAllScoreInfo(function (data) {
-        response.json(data);
-    });
-});
-
 router.get('/downloadDemo', function (request, response) {
     console.log('downloadDemo');
     response.download('private/demo.csv', 'demo.csv');
