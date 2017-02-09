@@ -58,7 +58,7 @@ router.get('/scores', function (request, response) {
   } else {
     href = 'student_scores';
   }
-
+  
   getHomeworkList(function (data) {
     if (data['succeed']) {
       if (request.query.homeworkId) {

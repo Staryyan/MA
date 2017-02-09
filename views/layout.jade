@@ -1,7 +1,35 @@
+//
+   Created by yanzexin on 01/02/2017.
+   All right reserved. 3:46 PM
 doctype html
 html
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title My Achievement
+    block style
+
   body
-    block content
+    block header
+
+    footer#footer
+      | Copyright © 2017 My Achievement Stary
+      ul.f-menu
+        li
+          a(href='https://github.com/Staryyan/MA') Github
+        li
+          a(href='mailto:yzx9610@outlook.com') Contact
+        li
+          a(href='http://blog.csdn.net/stary_yan?viewmode=list') Blog
+
+    // Page Loader
+    .page-loader
+      .preloader.pls-blue
+        svg.pl-circular(viewbox='25 25 50 50')
+          circle.plc-path(cx='50', cy='50', r='20')
+        p Please wait...
+    // Javascript Libraries
+    block js
+
+
