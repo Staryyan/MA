@@ -80,7 +80,7 @@ ScoreSchema.statics.setScore = function (will_score, cb) {
 };
 
 ScoreSchema.statics.getAllScores = function (homeworkId, cb) {
-    this.find({homeworkId: homeworkId}).then(function (records) {
+    this.find({homeworkId: homeworkId}).sort({'score': -1}).then(function (records) {
         if (records) {
             cb({'succeed': true, 'data': records});
         } else {

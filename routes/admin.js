@@ -68,8 +68,11 @@ router.get('/downloadDemo', function (request, response) {
 
 router.get('/downloadScore', function (request, response) {
     console.log('downloadScore');
-    HomeworkStatics.getFileName(request.body.homeworkId, function (data) {
-        response.json(data);
+    console.log(request.query.homeworkId);
+    HomeworkStatics.getFileName(request.query.homeworkId, function (data) {
+        if (data['succeed']) {
+            response.download(data['data']['file'],  request.query.homeworkTitle + '成绩表.csv');
+        }
     });
 });
 

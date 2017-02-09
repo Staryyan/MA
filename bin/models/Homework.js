@@ -62,6 +62,18 @@ HomeworkSchema.statics.getHomework = function (state, cb) {
     });
 };
 
+HomeworkSchema.statics.getHomeworkForComment = function (cb) {
+    this.find({$or:[{state: 'finish'}, {state: 'evaluating'}]}).then(function (data) {
+        if (data) {
+            cb({'succeed': true, 'data': data});
+        } else {
+            cb({'succeed': false});
+        }
+    }).catch(function (error) {
+        console.log(error);
+    });
+};
+
 HomeworkSchema.statics.afterEvaluate = function (homeworkId) {
     this.findOne({_id: homeworkId}).then(function (record) {
         if (record) {

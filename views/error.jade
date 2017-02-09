@@ -1,6 +1,20 @@
-extends layout
-
-block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+    title Material Admin
+    // Vendor CSS
+    link(href='../templates/vendors/bower_components/animate.css/animate.min.css', rel='stylesheet')
+    link(href='../templates/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css', rel='stylesheet')
+    // CSS
+    link(href='../templates/css/app.min.1.css', rel='stylesheet')
+    link(href='../templates/css/app.min.2.css', rel='stylesheet')
+  body.four-zero-content
+    .four-zero
+      h2 Sorry!
+      small Nah.. it's 404
+      footer
+        a(href='../login')
+          i.zmdi.zmdi-home

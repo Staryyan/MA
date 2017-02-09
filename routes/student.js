@@ -57,4 +57,22 @@ router.post('/loadScore', function (request, response) {
     });
 });
 
+router.post('/loadHomeworkList', function (request, response) {
+    console.log('loadHomeworkList');
+    Homework.getHomeworkForComment(function (data) {
+        if (data['succeed']) {
+            response.json(data);
+        }
+    });
+});
+
+router.post('/loadScoreList', function (request, response) {
+    console.log('loadScoreList');
+    Score.getAllScoresByStudentId(request.body.studentId, function (data) {
+        if (data['succeed']) {
+            response.json(data);
+        }
+    });
+});
+
 module.exports = router;

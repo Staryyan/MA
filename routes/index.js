@@ -47,32 +47,45 @@ router.get('/admin_publishHomework', function (request, response) {
   response.render('admin_publishHomework');
 });
 
-router.get('/admin_scores', function (request, response) {
+router.get('/scores', function (request, response) {
+
+  var status = request.cookies.user['status'];
+  var href = '';
+  if (status == 'admin') {
+    href = 'admin_scores';
+  } else if (status == 'TA') {
+    href = 'TA_scores';
+  } else {
+    href = 'student_scores';
+  }
+
   getHomeworkList(function (data) {
     if (data['succeed']) {
       if (request.query.homeworkId) {
         Score.getAllScores(request.query.homeworkId, function (records) {
           if (records['succeed']) {
-            response.render('admin_scores', {
+            response.render(href, {
               homeworkList: data['data'],
               scoreList: records['data'],
-              selectedTitle: request.query.homeworkTitle
+              selectedTitle: request.query.homeworkTitle,
+              selectedId: request.query.homeworkId
             });
           }
         });
       } else {
         Score.getAllScores(data['data'][0]['_id'], function (records) {
           if (records['succeed']) {
-            response.render('admin_scores', {
+            response.render(href, {
               homeworkList: data['data'],
               scoreList: records['data'],
-              selectedTitle: data['data'][0]['title']
+              selectedTitle: data['data'][0]['title'],
+              selectedId: data['data'][0]['_id']
             });
           }
         });
       }
     } else {
-      response.render('admin_scores');
+      response.render(href);
     }
   });
 });
@@ -85,6 +98,14 @@ function getHomeworkList(cb) {
 
 router.get('/student_home', function (request, response) {
   response.render('student_home', getCookieInfo(request));
+});
+
+router.get('/student_scores', function (request, response) {
+  response.render('student_scores', getCookieInfo(request));
+});
+
+router.get('/student_comment', function (request, response) {
+  response.render('student_comment', getCookieInfo(request));
 });
 
 router.get('/TA_home', function (request, response) {
@@ -110,7 +131,6 @@ router.get('/profile', function (request, response) {
 router.get('/home', function (request, response) {
   var status = request.cookies.user['status'];
   var href = '';
-  console.log(status);
   if (status == 'admin') {
     href = './admin_home';
   } else if (status == 'TA') {
@@ -130,5 +150,6 @@ function getCookieInfo(request) {
     email: userCookie.email
   };
 }
+
 
 module.exports = router;

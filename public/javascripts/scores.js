@@ -2,7 +2,7 @@
  * Created by yanzexin on 02/02/2017.
  * All right reserved @Stary 02/02/2017
  */
-var app = angular.module('adminApp', []);
+var app = angular.module('App', []);
 app.controller('scoresCtrl', function ($scope, $http) {
     data_table();
 
@@ -15,13 +15,15 @@ app.controller('scoresCtrl', function ($scope, $http) {
         if (newValue != oldValue) {
             var homework = getHomework(newValue);
             if (homework) {
-                window.location.href = '/admin_scores?homeworkId=' +
-                    homework['_id'] + ';homeworkTitle=' + homework['title'];
+                window.location.href = '/scores?homeworkId=' +
+                    homework['_id'] + '&homeworkTitle=' + homework['title'];
             }
         }
     });
     
     function getHomework(homeworkName) {
+        
+        $scope.homeworkList = JSON.parse($scope.homeworkList);
         for (var each of $scope.homeworkList) {
             if (each['title'] == homeworkName) {
                 return each;
@@ -34,8 +36,9 @@ app.controller('scoresCtrl', function ($scope, $http) {
         });
     }
     
-    $scope.getDonwloadUrl = function () {
-        return '/admin/downloadScore?homeworkId' + $scope.homeworkList[0]['homeworkId'];
+    $scope.getDownloadUrl = function () {
+        console.log('/admin/downloadScore?homeworkId' + getHomework($scope.selectedHomeworkTitle)['_id']);
+        return '/admin/downloadScore?homeworkId' + getHomework($scope.selectedHomeworkTitle)['_id'];
     }
     
 });

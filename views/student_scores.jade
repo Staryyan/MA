@@ -1,7 +1,7 @@
 //
    Created by yanzexin on 02/02/2017.
    All right reserved. 10:17 AM
-extends admin_layout
+extends student_layout
 
 append content
     .container(ng-app='App' ng-controller='scoresCtrl'
@@ -32,13 +32,12 @@ append content
                         tbody
                             - var ranking = 1;
                             - for(var index = 0; index < scoreList.length; index++)
-                            tr
-                                - if (index != 0 && scoreList[index]['score'] != scoreList[index - 1]['score']) ranking = index + 1;
-                                td #{ranking}
-                                td #{scoreList[index]['studentId']}
-                                td #{scoreList[index]['score']}
+                                tr
+                                    - if (index != 0 && scoreList[index]['score'] != scoreList[index - 1]['score']) ranking = index + 1;
+                                    td #{ranking}
+                                    td #{scoreList[index]['studentId']}
+                                    td #{scoreList[index]['score']}
 
 append javascripts
     script(src='../templates/vendors/bootgrid/jquery.bootgrid.updated.min.js')
     script(src='../javascripts/scores.js')
-

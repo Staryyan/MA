@@ -1,0 +1,32 @@
+//
+   Created by yanzexin on 09/02/2017.
+   All right reserved. 3:16 PM
+
+extends student_layout
+
+append content
+    .container(ng-app='studentApp' ng-controller='commentCtrl' ng-init="init('#{studentId}')")
+        .card
+            .listview.lv-bordered.lv-lg
+                .lv-header-alt.clearfix
+                    h2.lvh-label.hidden-xs 各次成绩评论
+                .lv-item.media(ng-repeat='each in homeworkList')
+                    .pull-left
+                        img.lv-img-sm(src='img/profile-pics/2.jpg', alt='')
+                    .media-body
+                        .lv-title
+                                | {{each['title']}}
+                        small.lv-small
+                            | {{getScore(each['_id'], each['state'])['comment']}}
+                        ul.lv-attrs
+                            li TA: {ta}
+                            li 分数: {{getScore(each['_id'], each['state'])['score']}} 分
+                        .lv-actions.actions.dropdown
+                            a(href='', data-toggle='dropdown', aria-expanded='true')
+                                i.zmdi.zmdi-more-vert
+                            ul.dropdown-menu.dropdown-menu-right
+                                li
+                                    a(href="{{each['url']}}") 作业链接
+
+append javascripts
+    script(src='../javascripts/student_comment.js')
