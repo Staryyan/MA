@@ -29,7 +29,7 @@ append content
                                     li
                                         a(href='') 其他
                     .card-body.card-padding
-                        | Running
+                        | 结束时间: {{convertFormat(each['deadline'])}}
                 .card(ng-switch-when="evaluating")
                     .card-header.bgm-blue
                         h2
@@ -65,7 +65,7 @@ append content
                                     li
                                         a(href='{{each["url"]}}') 作业链接
                                     li
-                                        a(href='') 所有学生情况
+                                        a(href='{{getScoreUrl(each["_id"], each["title"])}}') 所有学生情况
                                     li
                                         a(href='') Others
                     .card-body.card-padding
@@ -74,6 +74,7 @@ append content
                         h5 最高分: {{getInfoById(each['_id'])['max']}} 分
 
 append javascripts
+    script(src='../templates/vendors/bower_components/moment/moment.js')
     script(src='../templates/vendors/bower_components/flot/jquery.flot.js')
     script(src='../templates/vendors/bower_components/flot/jquery.flot.resize.js')
     script(src='../templates/vendors/bower_components/flot.tooltip/js/jquery.flot.tooltip.min.js')

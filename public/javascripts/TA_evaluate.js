@@ -73,6 +73,12 @@ app.controller('evaluateCtrl', function ($scope, $http, $location) {
         }
     }
 
+    $scope.$watch('selectedHomeworkTitle', function (newValue, oldValue) {
+        if (newValue != oldValue) {
+            getLocalHomeworkList();
+        }
+    });
+
     function getSelectedHomeworkId() {
         for (var each of $scope.evaluateHomeworkList) {
             if (each['title'] == $scope.selectedHomeworkTitle) {
@@ -166,4 +172,3 @@ function keyPress(value) {
         event.returnValue = false;
     }
 }
-

@@ -46,7 +46,9 @@ router.post('/finishEvaluating', function (request, response) {
     console.log('finishEvaluating');
     
     var fileName = ['private/homeworkStatics/', request.body.homeworkId, '.csv'].join('');
+    
     writer.writeData(fileName, request.body.homeworkId);
+    
     HomeworkStatics.createStaticsFile(request.body.homeworkId, fileName, function (data) {
         console.log(data);
     });

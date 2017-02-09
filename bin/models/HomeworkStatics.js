@@ -23,11 +23,14 @@ HomeworkStaticsSchema.statics.createStaticsFile = function (homworkId, fileName,
 
 HomeworkStaticsSchema.statics.getFileName = function (homeworkId, cb) {
     this.findOne({homeworkId: homeworkId}).then(function (record) {
+        console.log(record);
         if (record) {
             cb({'succeed': true, 'data': record});
         } else {
             cb({'succeed': false});
         }
+    }).catch(function (error) {
+        console.log(error);
     })
 };
 

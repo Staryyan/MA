@@ -65,6 +65,10 @@ app.controller('adminHomeCtrl', function ($scope, $http) {
     $scope.getStaticsFile = function (_id) {
         return '/users/getStaticsFile?homeworkId=' + _id;
     };
+    
+    $scope.getScoreUrl = function (homeworkId, homeworkTitle) {
+        return '/scores?homeworkId=' + homeworkId +'&homeworkTitle=' + homeworkTitle;
+    };
 
     function computeDataArray() {
         $scope.homeworkSizeList = [];
