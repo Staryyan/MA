@@ -126,7 +126,9 @@ app.controller('studentHomeCtrl', function ($scope, $upload, $http) {
                 return each;
             }
         }
-        return null;
+        return {
+            score: 0
+        };
     };
 
     function uploadLocalScore(record) {

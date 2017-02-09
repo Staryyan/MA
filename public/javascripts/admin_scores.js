@@ -20,7 +20,7 @@ app.controller('scoresCtrl', function ($scope, $http) {
             }
         }
     });
-
+    
     function getHomework(homeworkName) {
         for (var each of $scope.homeworkList) {
             if (each['title'] == homeworkName) {
@@ -33,4 +33,9 @@ app.controller('scoresCtrl', function ($scope, $http) {
         $("#data-table-command").bootgrid({
         });
     }
+    
+    $scope.getDonwloadUrl = function () {
+        return '/admin/downloadScore?homeworkId' + $scope.homeworkList[0]['homeworkId'];
+    }
+    
 });

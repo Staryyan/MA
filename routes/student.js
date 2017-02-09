@@ -13,10 +13,10 @@ var Score = require('../bin/models/Score');
 
 router.post('/uploadHomework', function (request, response) {
     console.log('uploadHomework');
-    fs.mkdir('homework/', function () {
+    fs.mkdir('private/homework', function () {
         var form = formidable.IncomingForm();
         form._encoding = 'utf-8';
-        form.uploadDir = 'homework/';
+        form.uploadDir = 'homework/homework/';
         form.keepExtensions = true;
         form.hash = false;
         form.maxFieldsSize = 20 * 1024 * 1024;

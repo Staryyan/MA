@@ -51,7 +51,7 @@ HomeworkSchema.statics.getHomework = function (state, cb) {
     } else {
         modal = this.find();
     }
-    modal.sort({'_id':-1}).then(function (data) {
+    modal.sort({'_id':1}).then(function (data) {
         if (data) {
             cb({'succeed': true, 'data': data})
         } else {
@@ -94,11 +94,25 @@ HomeworkSchema.statics.updateHomework = function () {
                 each['state'] = 'evaluating';
                 each.save();
             } else if (each['state'] == 'running') {
+                console.log('update ' + each['_id']);
                 setTimeout(function () {
                     updateState(each);
                 }, getDifferent(each['deadline']));
             }
         }
+    });
+};
+
+HomeworkSchema.statics.getHomeworkById = function (_id, cb) {
+    this.findOne({'_id': _id}).then(function (record) {
+        if (record) {
+            cb({'succeed': true, 'data': record});
+        } else {
+            cb({'succeed': false});
+        }
+    }).catch(function (error) {
+        console.log(error);
+        cb({'succeed': false});
     });
 };
 

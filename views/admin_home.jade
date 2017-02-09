@@ -30,6 +30,25 @@ append content
                                         a(href='') 其他
                     .card-body.card-padding
                         | Running
+                .card(ng-switch-when="evaluating")
+                    .card-header.bgm-blue
+                        h2
+                            | {{each['title']}}
+                            small
+                        ul.actions
+                            li
+                                a(href="{{getDownloadUrl(each['_id'], each['title'])}}")
+                                    i.zmdi.zmdi-download
+                            li.dropdown
+                                a(href='', data-toggle='dropdown')
+                                    i.zmdi.zmdi-more-vert
+                                ul.dropdown-menu.dropdown-menu-right
+                                    li
+                                        a(href="{{each['url']}}") 作业链接
+                                    li
+                                        a(href='') Others
+                    .card-body.card-padding
+                        | 还在评测中,请静候.
                 .card(ng-switch-when="finish")
                     .card-header.ch-alt.m-b-20
                         h2

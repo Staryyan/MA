@@ -10,6 +10,7 @@ var Parser = require('../bin/utils/CSVParser');
 var User = require('../bin/models/User');
 var Homework = require('../bin/models/Homework');
 var ScoreInfo = require('../bin/models/ScoreInfo');
+var HomeworkStatics = require('../bin/models/HomeworkStatics');
 
 router.post('/previewUser', function (request, response) {
     console.log('previewUser');
@@ -63,6 +64,13 @@ router.post('/publishHomework', function (request, response) {
 router.get('/downloadDemo', function (request, response) {
     console.log('downloadDemo');
     response.download('private/demo.csv', 'demo.csv');
+});
+
+router.get('/downloadScore', function (request, response) {
+    console.log('downloadScore');
+    HomeworkStatics.getFileName(request.body.homeworkId, function (data) {
+        response.json(data);
+    });
 });
 
 module.exports = router;

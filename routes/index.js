@@ -96,6 +96,7 @@ router.get('/TA_evaluate', function (request, response) {
 });
 
 router.get('/profile', function (request, response) {
+  var userCookie = getCookieInfo(request);
   if (userCookie.status == 'admin') {
     href = 'admin_profile';
   } else if (userCookie.status == 'TA') {

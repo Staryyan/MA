@@ -4,6 +4,7 @@ var router = express.Router();
 var User = require('../bin/models/User');
 var Homework = require('../bin/models/Homework');
 var ScoreInfo = require('../bin/models/ScoreInfo');
+var HomeworkStatics = require('../bin/models/HomeworkStatics');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -48,6 +49,19 @@ router.post('/loadScoreInfo', function (request, response) {
   ScoreInfo.getAllScoreInfo(function (data) {
     response.json(data);
   });
+});
+
+router.get('/getStaticsFile', function (request, response) {
+  console.log('getStaticsFile');
+  Homework.getHomeworkById(request.query.homeworkId, function (data) {
+    if (data['succeed']) {
+      HomeworkStatics.getFileName(request.query.homeworkId, function (record) {
+        if (record['succeed']) {
+          response.download(record['data']['file'], data['data']['title'] + '.csv');
+        }
+      })
+    }
+  })
 });
 
 module.exports = router;

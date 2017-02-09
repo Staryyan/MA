@@ -20,13 +20,25 @@ ScoreInfoSchema.statics.finishHomework = function (homeworkId, cb) {
     Score.getAllScores(homeworkId, function (data) {
         if (data['succeed']) {
             var scores = _.pluck(data['data'], 'score');
+
+            /**
+             * getAverageScore
+             * @type {number}
+             */
             var averageScore = 0;
             var times = 0;
             _.each(scores, function (num) {
                 averageScore += num;
                 times++;
             });
+
+            /**
+             * getMaxScore
+             * @type {number}
+             */
             averageScore /= times;
+            averageScore = averageScore.toFixed(2);
+
             var maxScore = _.max(scores);
             var record = new ScoreInfo({
                 homeworkId: homeworkId,

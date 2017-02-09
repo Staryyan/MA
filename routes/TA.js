@@ -8,6 +8,10 @@ var router = express.Router();
 var Homework = require('../bin/models/Homework');
 var Score = require('../bin/models/Score');
 var ScoreInfo = require('../bin/models/ScoreInfo');
+var HomeworkStatics = require('../bin/models/HomeworkStatics');
+
+var Writer = require('../bin/utils/CSVCreator');
+var writer = new Writer();
 
 router.post('/evaluateHomeworkList', function (request, response) {
     console.log('evaluateHomeworkList');
@@ -40,9 +44,19 @@ router.post('/saveEvaluate', function (request, response) {
 
 router.post('/finishEvaluating', function (request, response) {
     console.log('finishEvaluating');
+    
+    var fileName = ['private/homeworkStatics/', request.body.homeworkId, '.csv'].join('');
+    writer.writeData(fileName, request.body.homeworkId);
+    HomeworkStatics.createStaticsFile(request.body.homeworkId, fileName, function (data) {
+        console.log(data);
+    });
+
+    Homework.afterEvaluate(request.body.homeworkId);
+
     ScoreInfo.finishHomework(request.body.homeworkId, function (data) {
         response.json(data);
     });
 });
+
 
 module.exports = router;

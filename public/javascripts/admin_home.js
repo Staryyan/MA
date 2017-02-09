@@ -62,6 +62,10 @@ app.controller('adminHomeCtrl', function ($scope, $http) {
         return moment(time).fromNow();
     };
 
+    $scope.getStaticsFile = function (_id) {
+        return '/users/getStaticsFile?homeworkId=' + _id;
+    };
+
     function computeDataArray() {
         $scope.homeworkSizeList = [];
         $scope.homeworkAverageList = [];
