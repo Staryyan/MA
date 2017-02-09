@@ -1,0 +1,62 @@
+//
+   Created by yanzexin on 03/02/2017.
+   All right reserved. 10:48 PM
+
+extends TA_layout
+
+append content
+    .container(ng-app='profileApp', ng-controller='profileCtrl')
+        .card
+            .card-header
+                h1
+                    i.zmdi.zmdi-account.m-r-5
+                    |  个人信息
+                ul.actions
+                    li.dropdown
+                        a(data-toggle='modal', href='#changePassword')
+                            i.zmdi.zmdi-assignment-account
+            .card-body.card-padding
+                .pmb-bloc
+                    .pmbb-body.p-l-30
+                        .pmbb-view
+                            dl.dl-horizontal
+                                dt 名字
+                                dd #{name}
+                            dl.dl-horizontal
+                                dt 学号
+                                dd #{studentId}
+                            dl.dl-horizontal
+                                dt Email
+                                dd #{email}
+                            dl.dl-horizontal
+                                dt 身份
+                                dd #{status}
+
+
+            #changePassword.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
+                .modal-dialog
+                    .modal-content
+                        .modal-header
+                            h4.modal-title 改密码
+                        .modal-body
+                            .card
+                                .card-body.card-padding
+                                    .form-group.has-feedback#originalPasswordForm
+                                        //.has-warning .has-success .has-error
+                                        label.control-label(for='originalPassword') 输入原密码
+                                        .fg-line
+                                            input#originalPassword.form-control(type='password' ng-model='originalPassword' ng-blur='originalPasswordIsEmpty()')
+                                    .form-group.has-feedback#newPasswordForm
+                                        label.control-label(for='newPassword') 输入新密码
+                                        .fg-line
+                                            input#newPassword.form-control(type='password' ng-model='newPassword' ng-blur='newPasswordIsEmpty()')
+                                    .form-group.has-feedback#reInputForm
+                                        label.control-label(for='reInput') 再次输入新密码
+                                        .fg-line
+                                            input#reInput.form-control(type='password' ng-model='reInput' ng-blur='reInputIsEmpty()')
+                        .modal-footer
+                            button.btn.btn-success(type='button' ng-click='save()') 保存
+                            button.btn.btn-danger(type='button', data-dismiss='modal') 取消
+append javascripts
+    script(src='../javascripts/md5.js')
+    script(src='../javascripts/profile.js')

@@ -1,7 +1,6 @@
 //
-   Created by yanzexin on 02/02/2017.
-   All right reserved. 10:17 AM
-extends TA_layout
+   Created by yanzexin on 10/02/2017.
+   All right reserved. 12:20 AM
 
 append content
     .container(ng-app='App' ng-controller='scoresCtrl'
@@ -33,11 +32,11 @@ append content
                             tbody
                                 - var ranking = 1;
                                 - for(var index = 0; index < scoreList.length; index++)
-                                    tr
-                                        - if (index != 0 && scoreList[index]['score'] != scoreList[index - 1]['score']) ranking = index + 1;
-                                        td #{ranking}
-                                        td #{scoreList[index]['studentId']}
-                                        td #{scoreList[index]['score']}
+                                tr
+                                    - if (index != 0 && scoreList[index]['score'] != scoreList[index - 1]['score']) ranking = index + 1;
+                                    td #{ranking}
+                                    td #{scoreList[index]['studentId']}
+                                    td #{scoreList[index]['score']}
 
         .col-md-5
             .card
