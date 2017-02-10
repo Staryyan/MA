@@ -5,7 +5,7 @@
 extends TA_layout
 
 append content
-    .container(ng-app='evaluateApp' ng-controller='evaluateCtrl' ng-init="init('#{studentId}')")
+    .container(ng-app='adminApp' ng-controller='evaluateCtrl')
         .card
             .card-header
                 h2
@@ -21,11 +21,13 @@ append content
                 thead
                     tr
                         th(data-column-id='id', data-order='desc') 学号
+                        th(data-colunm-id='TAId') 评改人
                         th(data-column-id='score', data-type='numeric') 分数
                         th(data-column-id='commands') 评论
                 tbody
                     tr(ng-repeat='each in localHomeworkList')
                         td {{each['studentId']}}
+                        td {{getTAName(each['TAId'])}}
                         td
                             .form-group
                                 .fg-line(style='width:60px')
@@ -42,5 +44,21 @@ append content
                             a.btn.bgm-deeporange.btn-icon.waves-effect.waves-circle.waves-float(type='button' href="{{getDownloadUrl(each['studentId'], each['files'])}}")
                                 span.zmdi.zmdi-download
 
+            a.btn.bgm-red.btn-icon.command-edit.waves-effect.waves-circle(style='position: absolute;right: 30px; bottom: 10px;' href='#finishEvaluating' data-toggle='modal')
+                i.zmdi.zmdi-check-all
+
+            #finishEvaluating.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
+                .modal-dialog
+                    .modal-content
+                        .modal-header
+                            h4.modal-title 结束评测
+                        .modal-body
+                            .card
+                                .card-body.card-padding
+                                    | 结束评测后,系统将自动结束这个作业评测并统计所有数据,此后将不能再修改成绩, 请反复确认无误后确定!
+                        .modal-footer
+                            button.btn.btn-danger(type='button' ng-click='finish()') 确定
+                            button.btn.btn-success(type='button', ng-click='recheck()') 再次确认
+
 append javascripts
-    script(src='../javascripts/TA_evaluate.js')
+    script(src='../javascripts/admin_evaluate.js')

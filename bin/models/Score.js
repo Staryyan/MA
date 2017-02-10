@@ -2,17 +2,18 @@
  * Created by yanzexin on 03/02/2017.
  * All right reserved @Stary 03/02/2017
  */
+
 'use strict';
 var mongoose = require('mongoose');
-var _ = require('underscore');
 var fs = require('fs');
 var Schema = mongoose.Schema;
 var ScoreSchema = new Schema({
     homeworkId: String,
     studentId: String,
+    files: String,
+    TAId: String,
     comment: String,
-    score: Number,
-    files: String
+    score: Number
 });
 
 ScoreSchema.statics.handInHomework = function (will_score, cb) {
@@ -40,6 +41,7 @@ ScoreSchema.statics.handInHomework = function (will_score, cb) {
                 homeworkId: will_score.homeworkId,
                 studentId: will_score.studentId,
                 comment: '',
+                TAId: '',
                 score: 0,
                 files: will_score.files
             });
@@ -80,7 +82,7 @@ ScoreSchema.statics.setScore = function (will_score, cb) {
 };
 
 ScoreSchema.statics.getAllScores = function (homeworkId, cb) {
-    this.find({homeworkId: homeworkId}).sort({'score': -1}).then(function (records) {
+    this.find().sort({'score': -1}).then(function (records) {
         if (records) {
             cb({'succeed': true, 'data': records});
         } else {
@@ -88,6 +90,21 @@ ScoreSchema.statics.getAllScores = function (homeworkId, cb) {
         }
     }).catch(function (error) {
         cb({'succeed': false, 'error': error});
+    });
+};
+
+ScoreSchema.statics.getEvaluateScores = function (homeworkId, TAId, cb) {
+    this.find()
+        .where({homeworkId: homeworkId})
+        .where({TAId: TAId}).then(function (records) {
+        if (records) {
+            cb({'succeed': true, 'data': records});
+        } else {
+            cb({'succeed': false});
+        }
+    }).catch(function (error) {
+        console.log(error);
+        cb({'succeed': false});
     });
 };
 
@@ -102,6 +119,20 @@ ScoreSchema.statics.getAllScoresByStudentId = function (studentId, cb) {
         console.log(error);
         cb({'succeed': false, 'error': error});
     });
+};
+
+ScoreSchema.statics.getAllScoresByTAId = function (homeworkId, TAId, cb) {
+    this.find()
+        .where({homeworkId: homeworkId})
+        .where({TAId: TAId}).then(function (data) {
+        if (data) {
+            cb({'succeed': true, 'data': data});
+        } else {
+            cb({'succeed': false});
+        }
+    }).catch(function (error) {
+        console.log(error);
+    })
 };
 
 var Score = mongoose.model('Score', ScoreSchema);

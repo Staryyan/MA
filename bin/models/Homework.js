@@ -5,14 +5,18 @@
 'use strict';
 var mongoose = require('mongoose');
 var moment = require('moment');
+var _ = require('underscore');
 var Schema = mongoose.Schema;
-var ScoreInfo = require('./ScoreInfo');
 var HomeworkSchema = new Schema({
     title: String,
     deadline: String,
     url: String,
     state: String
 });
+
+var ScoreInfo = require('./ScoreInfo');
+var User = require('./User');
+var Score = require('./Score');
 
 HomeworkSchema.statics.publish = function (will_homework, cb) {
     var homework = new Homework({
@@ -24,25 +28,12 @@ HomeworkSchema.statics.publish = function (will_homework, cb) {
     homework.save().then(function (data) {
         setTimeout(function () {
             updateState(data);
+            assignHomework(data);
         }, getDifferent(data['deadline']));
         cb();
     });
 };
 
-function updateState(data) {
-    data['state'] = 'evaluating';
-    data.save().then(function (data) {
-        console.log(data);
-    });
-}
-
-function getNow() {
-    return moment().format();
-}
-
-function getDifferent(deadline) {
-    return moment(deadline).diff(moment(getNow()));
-}
 
 HomeworkSchema.statics.getHomework = function (state, cb) {
     var modal;
@@ -87,7 +78,9 @@ HomeworkSchema.statics.afterEvaluate = function (homeworkId) {
 };
 
 HomeworkSchema.statics.getEvaluatingHomeworkList = function (cb) {
-    this.find({state: 'evaluating'}).then(function (record) {
+    this.find()
+        .where({state: 'evaluating'})
+        .then(function (record) {
         if (record) {
             cb({'succeed': true, 'data': record});
         } else {
@@ -109,6 +102,7 @@ HomeworkSchema.statics.updateHomework = function () {
                 console.log('update ' + each['_id']);
                 setTimeout(function () {
                     updateState(each);
+                    assignHomework(each);
                 }, getDifferent(each['deadline']));
             }
         }
@@ -127,6 +121,43 @@ HomeworkSchema.statics.getHomeworkById = function (_id, cb) {
         cb({'succeed': false});
     });
 };
+
+function updateState(data) {
+    data['state'] = 'evaluating';
+    data.save().then(function (data) {
+        console.log(data);
+    });
+}
+
+function assignHomework(data) {
+    User.findUserByStatus('TA', function (userRecord) {
+        if (userRecord['succeed']) {
+            var TALength = userRecord['data'].length;
+            Score.getAllScores(data['_id'], function (scoreRecord) {
+                if (scoreRecord['succeed']) {
+                    scoreRecord['data'] = _.shuffle(scoreRecord['data']);
+                    for (var scoreIndex = 0, TAIndex = 0;
+                         scoreIndex < scoreRecord['data'].length;
+                         scoreIndex++) {
+                        scoreRecord['data'][scoreIndex]['TAId'] = userRecord['data'][TAIndex]['studentId'];
+                        TAIndex++;
+                        TAIndex %= TALength;
+                        scoreRecord['data'][scoreIndex].save().then(function (data) {
+                        });
+                    }
+                }
+            })
+        }
+    })
+}
+
+function getNow() {
+    return moment().format();
+}
+
+function getDifferent(deadline) {
+    return moment(deadline).diff(moment(getNow()));
+}
 
 var Homework = mongoose.model('Homework', HomeworkSchema);
 

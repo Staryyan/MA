@@ -1,12 +1,12 @@
 /**
- * Created by yanzexin on 05/02/2017.
- * All right reserved @Stary 05/02/2017
+ * Created by yanzexin on 10/02/2017.
+ * All right reserved @Stary 10/02/2017
  */
 
 
-var app = angular.module('adminHomeApp', []);
+var app = angular.module('homeApp', []);
 
-app.controller('adminHomeCtrl', function ($scope, $http) {
+app.controller('homeCtrl', function ($scope, $http) {
     loadHomework();
 
     function loadHomework() {
@@ -65,10 +65,11 @@ app.controller('adminHomeCtrl', function ($scope, $http) {
     $scope.getStaticsFile = function (_id) {
         return '/users/getStaticsFile?homeworkId=' + _id;
     };
-    
+
     $scope.getScoreUrl = function (homeworkId, homeworkTitle) {
         return '/scores?homeworkId=' + homeworkId +'&homeworkTitle=' + homeworkTitle;
     };
+
 
     function computeDataArray() {
         $scope.homeworkSizeList = [];

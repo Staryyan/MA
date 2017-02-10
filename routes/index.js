@@ -116,7 +116,6 @@ router.get('/scores', function (request, response) {
 router.get('/downloadScore', function (request, response) {
   console.log('downloadScore');
     HomeworkStatics.getFileName(request.query.homeworkId, function (data) {
-      console.log(data);
       if (data['succeed']) {
         response.download(data['data']['file'],  request.query.homeworkTitle + '成绩表.csv');
       }
@@ -164,6 +163,12 @@ router.get('/admin_publishHomework', function (request, response) {
   });
 });
 
+router.get('/admin_evaluate', function (request, response) {
+  isValidVisitWithStatus(request, response, 'admin', function () {
+    response.render('admin_evaluate');
+  })
+});
+
 
 /**
  * Student Get router.
@@ -197,7 +202,7 @@ router.get('/TA_home', function (request, response) {
 
 router.get('/TA_evaluate', function (request, response) {
   isValidVisitWithStatus(request, response, 'TA', function () {
-    response.render('TA_evaluate');
+    response.render('TA_evaluate', getCookieInfo(request));
   });
 });
 

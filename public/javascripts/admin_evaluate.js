@@ -1,20 +1,21 @@
 /**
+ * Created by yanzexin on 10/02/2017.
+ * All right reserved @Stary 10/02/2017
+ */
+/**
  * Created by yanzexin on 04/02/2017.
  * All right reserved @Stary 04/02/2017
  */
 
-var app = angular.module('evaluateApp', []);
+var app = angular.module('adminApp', []);
 
 app.controller('evaluateCtrl', function ($scope, $http, $location) {
 
-    $scope.init = function (studentId) {
-        $scope.studentId = studentId;
-        loadEvaluateHomeworkList();
-    };
+    loadEvaluateHomeworkList();
 
     function loadEvaluateHomeworkList() {
         $http({
-            url: 'TA/evaluateHomeworkList',
+            url: 'admin/evaluateHomeworkList',
             method: 'POST'
         }).success(function (data) {
             if (data['succeed']) {
@@ -23,6 +24,7 @@ app.controller('evaluateCtrl', function ($scope, $http, $location) {
                     console.log(data['data']);
                     $scope.evaluateHomeworkList = data['data'];
                     $scope.selectedHomeworkTitle = data['data'][0]['title'];
+                    loadTAList();
                     loadAllHomeworkList();
                 } else {
                     notify('没有作业需要评测!', 'warn');
@@ -35,16 +37,28 @@ app.controller('evaluateCtrl', function ($scope, $http, $location) {
             notify('出错了!请联系管理员!', 'danger');
         })
     }
-    
+
+    function loadTAList() {
+        $http({
+            url: 'users/TAList',
+            method: 'POST'
+        }).success(function (data) {
+            if (data['succeed']) {
+                $scope.TAList = data['data'];
+            }
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+
     function loadAllHomeworkList() {
         $scope.allHomeworkList = [];
         var list = $scope.evaluateHomeworkList;
         for (var each of list) {
             $http({
-                url: 'TA/homeworkList',
+                url: 'admin/homeworkList',
                 data: {
-                    homeworkId: each['_id'],
-                    TAId: $scope.studentId
+                    homeworkId: each['_id']
                 },
                 method: 'POST'
             }).success(function (data) {
@@ -62,9 +76,9 @@ app.controller('evaluateCtrl', function ($scope, $http, $location) {
             })
         }
     }
-    
+
     $scope.getDownloadUrl = function (studentId, filePath) {
-        return "/TA/getFiles?files=" + filePath 
+        return "/TA/getFiles?files=" + filePath
             + "&studentId=" + studentId;
     };
 
@@ -132,7 +146,48 @@ app.controller('evaluateCtrl', function ($scope, $http, $location) {
             }
         }
     };
-    
+
+    $scope.finish = function () {
+        if (!hasEmpty()) {
+            $http({
+                url: 'admin/finishEvaluating',
+                data: {
+                    homeworkId: $scope.selectedHomeworkId
+                },
+                method: 'POST'
+            }).success(function (data) {
+                if (data['succeed']) {
+                    notify('成功评测完所有作业!', 'success');
+                    setTimeout('window.location.href="./scores";', 1000);
+                }
+            }).error(function (error) {
+                notify('出错了!请联系管理员!', 'danger');
+                console.log(error);
+            })
+        }
+    };
+
+    $scope.getTAName = function (TAId) {
+        for (var each of $scope.TAList) {
+            if (each['studentId'] == TAId) {
+                return each['name'];
+            }
+        }
+    };
+
+    function hasEmpty() {
+        for (var each of $scope.localHomeworkList) {
+            if (!each['score'] || !each['comment']) {
+                notify('有作业还没有评测,或则还没有给出分数或评论!', 'danger');
+                return true;
+            }
+        }
+        return false;
+    }
+
+    $scope.recheck = function () {
+    };
+
 });
 
 function keyPress(value) {

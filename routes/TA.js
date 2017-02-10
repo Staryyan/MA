@@ -22,7 +22,7 @@ router.post('/evaluateHomeworkList', function (request, response) {
 
 router.post('/homeworkList', function (request, response) {
     console.log('homeworkList');
-    Score.getAllScores(request.body.homeworkId, function (data) {
+    Score.getEvaluateScores(request.body.homeworkId, request.body.TAId, function (data) {
         response.json(data);
     });
 });
@@ -41,24 +41,5 @@ router.post('/saveEvaluate', function (request, response) {
         response.json(data);
     })
 });
-
-router.post('/finishEvaluating', function (request, response) {
-    console.log('finishEvaluating');
-    
-    var fileName = ['private/homeworkStatics/', request.body.homeworkId, '.csv'].join('');
-    
-    writer.writeData(fileName, request.body.homeworkId);
-    
-    HomeworkStatics.createStaticsFile(request.body.homeworkId, fileName, function (data) {
-        console.log(data);
-    });
-
-    Homework.afterEvaluate(request.body.homeworkId);
-
-    ScoreInfo.finishHomework(request.body.homeworkId, function (data) {
-        response.json(data);
-    });
-});
-
 
 module.exports = router;

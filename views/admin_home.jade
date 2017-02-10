@@ -4,7 +4,7 @@
 
 extends admin_layout
 append content
-    .container(ng-app='adminHomeApp', ng-controller='adminHomeCtrl')
+    .container(ng-app='homeApp', ng-controller='homeCtrl')
         .col-md-12
             .card
                 .card-header
@@ -36,9 +36,6 @@ append content
                             | {{each['title']}}
                             small
                         ul.actions
-                            li
-                                a(href="{{getDownloadUrl(each['_id'], each['title'])}}")
-                                    i.zmdi.zmdi-download
                             li.dropdown
                                 a(href='', data-toggle='dropdown')
                                     i.zmdi.zmdi-more-vert
@@ -56,7 +53,7 @@ append content
                             small
                         ul.actions
                             li
-                                a(href='')
+                                a(href="/downloadScore?homeworkId={{each['_id']}}&homeworkTitle={{each['title']}}")
                                     i.zmdi.zmdi-download
                             li.dropdown
                                 a(href='', data-toggle='dropdown')
@@ -81,4 +78,4 @@ append javascripts
     script(src='../templates/vendors/bower_components/flot-orderBars/js/jquery.flot.orderBars.js')
     script(src='../templates/vendors/bower_components/flot-orderBars/js/jquery.flot.orderBars.js')
 
-    script(src='../javascripts/admin_home.js')
+    script(src='../javascripts/home.js')

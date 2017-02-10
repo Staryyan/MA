@@ -64,4 +64,11 @@ router.get('/getStaticsFile', function (request, response) {
   })
 });
 
+router.post('/TAList', function (request, response) {
+  console.log('TAList');
+  User.findUserByStatus('TA', function (data) {
+    response.json(data);
+  })
+});
+
 module.exports = router;

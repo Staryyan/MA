@@ -6,9 +6,13 @@
 var app = angular.module('studentApp', []);
 
 app.controller('commentCtrl', function ($scope, $http) {
+
+    loadHomeworkList();
+
+    loadTAList();
+
     $scope.init = function (studentId) {
         $scope.studentId = studentId;
-        loadHomeworkList();
     };
     
     function loadHomeworkList() {
@@ -19,6 +23,20 @@ app.controller('commentCtrl', function ($scope, $http) {
             if (data['succeed']) {
                 $scope.homeworkList = data['data'];
                 loadScoreList();
+            }
+        }).error(function (error) {
+            console.log(error);
+        })
+    }
+    
+    function loadTAList() {
+        $http({
+            url: 'users/TAList',
+            method: 'POST'
+        }).success(function (data) {
+            console.log(data);
+            if (data['succeed']) {
+                $scope.TAList = data['data'];
             }
         }).error(function (error) {
             console.log(error);
@@ -56,6 +74,16 @@ app.controller('commentCtrl', function ($scope, $http) {
             return {
                 comment: '你没有提交作业!',
                 score: 0
+            }
+        }
+    };
+
+    $scope.getTAName = function (TAId) {
+        if ($scope.TAList) {
+            for (var each of $scope.TAList) {
+                if (each['studentId'] == TAId) {
+                    return each['name'];
+                }
             }
         }
     }

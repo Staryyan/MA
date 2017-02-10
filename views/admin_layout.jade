@@ -72,10 +72,17 @@ append header
                             a(href='/admin_importUsers')
                                 i.zmdi.zmdi-edit
                                 |  Import Users
-                li.menu
-                    a(href='/scores')
+                li.sub-menu
+                    a(href='')
                         i.zmdi.zmdi-view-list
                         |  Scores
+                    ul
+                        li
+                            a(href='/scores')
+                                | 查看成绩
+                        li
+                            a(href='/admin_evaluate')
+                                | 评测作业
                 li
                     a(href='/admin_publishHomework')
                         i.zmdi.zmdi-calendar

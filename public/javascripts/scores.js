@@ -38,8 +38,7 @@ app.controller('scoresCtrl', function ($scope, $http) {
     }
     
     $scope.getDownloadUrl = function () {
-        console.log('/admin/downloadScore?homeworkId' + getHomework($scope.selectedHomeworkTitle)['_id']);
-        return '/admin/downloadScore?homeworkId' + getHomework($scope.selectedHomeworkTitle)['_id'];
+        return '/downloadScore?homeworkId' + getHomework($scope.selectedHomeworkTitle)['_id'];
     };
 
     function computeData() {

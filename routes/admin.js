@@ -9,13 +9,17 @@ var Parser = require('../bin/utils/CSVParser');
 
 var User = require('../bin/models/User');
 var Homework = require('../bin/models/Homework');
+var HomeworkStatics = require('../bin/models/HomeworkStatics');
 var ScoreInfo = require('../bin/models/ScoreInfo');
+var Score = require('../bin/models/Score');
+var Writer = require('../bin/utils/CSVCreator');
+var writer = new Writer();
 
 router.post('/previewUser', function (request, response) {
     console.log('previewUser');
     var form = formidable.IncomingForm();
     form._encoding = 'utf-8';
-    form.uploadDir = 'private/';
+    form.uploadDir = 'private/userData';
     form.keepExtensions = true;
     form.hash = false;
     form.maxFieldsSize = 10 * 1024 * 1024;
@@ -65,5 +69,47 @@ router.get('/downloadDemo', function (request, response) {
     response.download('private/userData/demo.csv', 'demo.csv');
 });
 
+router.post('/TAList', function (request, response) {
+    console.log('TAList');
+    User.findUserByStatus('TA', function (data) {
+        response.json(data);
+    })
+});
+
+router.post('/evaluateHomeworkList', function (request, response) {
+    console.log('evaluateHomeworkList');
+    Homework.getEvaluatingHomeworkList(function (data) {
+        response.json(data);
+    });
+});
+
+router.post('/homeworkList', function (request, response) {
+    console.log('homeworkList');
+    Score.getAllScores(request.body.homeworkId, function (data) {
+        response.json(data);
+    });
+});
+
+router.post('/finishEvaluating', function (request, response) {
+    console.log('finishEvaluating');
+
+    var fileName = ['private/homeworkStatics/', request.body.homeworkId, '.csv'].join('');
+
+    writer.writeData(fileName, request.body.homeworkId);
+
+    try {
+        HomeworkStatics.createStaticsFile(request.body.homeworkId, fileName, function (data) {
+            console.log(data);
+        });
+    } catch (error) {
+        console.log(error);
+    }
+
+    Homework.afterEvaluate(request.body.homeworkId);
+
+    ScoreInfo.finishHomework(request.body.homeworkId, function (data) {
+        response.json(data);
+    });
+});
 
 module.exports = router;

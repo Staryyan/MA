@@ -19,7 +19,7 @@ append content
                         small.lv-small
                             | {{getScore(each['_id'], each['state'])['comment']}}
                         ul.lv-attrs
-                            li TA: {ta}
+                            li TA: {{getTAName(getScore(each['_id'], each['state'])['TAId'])}}
                             li 分数: {{getScore(each['_id'], each['state'])['score']}} 分
                         .lv-actions.actions.dropdown
                             a(href='', data-toggle='dropdown', aria-expanded='true')
