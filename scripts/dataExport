@@ -1,0 +1,5 @@
+mongoexport -d MA -c users -o users.json 
+mongoexport -d MA -c scores -o scores.json 
+mongoexport -d MA -c homeworks -o homeworks.json 
+mongoexport -d MA -c scoreinfos -o scoreinfos.json 
+mongoexport -d MA -c homeworkstatics -o homeworkstatics.json 

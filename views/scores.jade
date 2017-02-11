@@ -5,7 +5,7 @@
 append content
     .container(ng-app='App' ng-controller='scoresCtrl'
     ng-init="init('#{selectedTitle}', '#{JSON.stringify(homeworkList)}', '#{JSON.stringify(scoreList)}');")
-        .col-md-7
+        .col-md-10
             .card
                 .card-header
                     ul.actions
@@ -38,7 +38,7 @@ append content
                                     td #{scoreList[index]['studentId']}
                                     td #{scoreList[index]['score']}
 
-        .col-md-5
+        .col-md-4
             .card
                 .card-header
                     h2 成绩分布

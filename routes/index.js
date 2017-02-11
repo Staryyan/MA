@@ -87,7 +87,7 @@ router.get('/scores', function (request, response) {
             });
 
           } else {
-
+            
             Score.getAllScores(data['data'][0]['_id'], function (records) {
               if (records['succeed']) {
                 response.render(href, {
