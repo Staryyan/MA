@@ -8,7 +8,7 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var admin = require('./routes/admin');
-var student = require('./routes/student')
+var student = require('./routes/student');
 var TA = require('./routes/TA');
 
 var app = express();
