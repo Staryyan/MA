@@ -5,14 +5,14 @@
 var fs = require('fs');
 
 var Score = require('../models/Score');
-
+var Homework = require('../models/Homework');
 
 var CSVCreator = function () {
 };
 
 var pro = CSVCreator.prototype;
 
-pro.stringify = function (scoreList) {
+pro.eachHomeworkStringify = function (scoreList) {
     var buffer = "";
     buffer += '"' + '学号' + '","' + '分数"\n';
     for (var each of scoreList) {
@@ -26,7 +26,7 @@ pro.writeData = function (fileName, homeworkId) {
     fs.mkdir('private/homeworkStatics/', function () {
         Score.getAllScores(homeworkId, function (data) {
             if (data['succeed']) {
-                fs.writeFile(fileName, that.stringify(data['data']), function (error) {
+                fs.writeFile(fileName, that.eachHomeworkStringify(data['data']), function (error) {
                     console.log(error);
                     if (error) {
                         console.log(error);

@@ -9,8 +9,9 @@ var HomeworkStatics = require('../bin/models/HomeworkStatics');
 var writer = new Writer();
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('login');
+router.get('/', function(request, response, next) {
+  response.writeHead('302', {'location': './home'});
+  response.end();
 });
 
 router.get('/login', function (request, response) {
@@ -239,7 +240,7 @@ function getHomeworkList(cb) {
 function isLogin(request, response, cb) {
   var cookies = getCookieInfo(request);
   if (cookies) {
-    cb();
+    cb(cookies);
   } else {
     unvalidVisit(response);
   }

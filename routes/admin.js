@@ -97,13 +97,9 @@ router.post('/finishEvaluating', function (request, response) {
 
     writer.writeData(fileName, request.body.homeworkId);
 
-    try {
-        HomeworkStatics.createStaticsFile(request.body.homeworkId, fileName, function (data) {
-            console.log(data);
-        });
-    } catch (error) {
-        console.log(error);
-    }
+    HomeworkStatics.createStaticsFile(request.body.homeworkId, fileName, function (data) {
+        console.log(data);
+    });
 
     Homework.afterEvaluate(request.body.homeworkId);
 
