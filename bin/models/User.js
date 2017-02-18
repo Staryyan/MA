@@ -104,6 +104,47 @@ UserSchema.statics.findUserByStatus = function (status, cb) {
     });
 };
 
+UserSchema.statics.deleteAllUsers = function (status, cb) {
+    this.remove({status: status}).then(function (data) {
+        console.log(data);
+        cb({'succeed': true});
+    }).catch(function (error) {
+        console.log(error);
+    });
+};
+
+UserSchema.statics.deleteUserById = function (studentId, status, cb) {
+    var that = this;
+    this.findOne()
+        .where({studentId: studentId})
+        .then(function (data) {
+            if (data) {
+                that.remove()
+                    .where({studentId: studentId})
+                    .then(function () {
+                        cb({'succeed': true});
+                    }).catch(function (error) {
+                    cb({'succeed': false});
+                    console.log(error);
+                });
+            } else {
+                cb({'succeed': false, 'error': '用户不存在!'});
+            }
+    }).catch(function (error) {
+        console.log(error);
+        cb({'succeed': false});
+    });
+};
+
+UserSchema.statics.findAllUsers = function (cb) {
+    this.find().then(function (data) {
+        cb({'succeed': true, 'data': data});
+    }).catch(function (error) {
+        console.log(error);
+        cb({'succeed': false});
+    });
+};
+
 var User = mongoose.model('User', UserSchema);
 
 module.exports = User;

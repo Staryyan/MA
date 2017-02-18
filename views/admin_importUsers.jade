@@ -8,15 +8,15 @@ append content
         .card
             .card-header
                 h2
-                    | Insert Users
-                    small You can import CSV data file to import users' data.
+                    | 导入用户
+                    small 你可以通过修改Demo文件来完成对数据的导入.
                 br
                 .row
                     .col-sm-4
                         form.fileinput.fileinput-new(data-provides='fileinput' enctype='multipart/form-data')
                             span.btn.btn-primary.btn-file.m-r-10
-                                span.fileinput-new Select file
-                                span.fileinput-exists Change
+                                span.fileinput-new 选择文件
+                                span.fileinput-exists 改变
                                 input(type='file', name='file', ng-file-select="onFileSelect($files)" multiple accept="text/csv")
                             span.fileinput-filename
                             a.close.fileinput-exists(href='#', data-dismiss='fileinput') ×
@@ -24,22 +24,23 @@ append content
                             br
                             button#preview.btn.btn-info.btn-icon-text.waves-effect(type='button' ng-click='previewData()')
                                 i.zmdi.zmdi-view-array
-                                | preview
+                                | 预览
                             br
                             br
                             button.btn.btn-success.btn-icon-text.waves-effect(type='button' ng-click='submitData()')
                                 i.zmdi.zmdi-view-array
-                                | Submit
+                                | 提交
                             br
                             br
                             a.btn.btn-warning.btn-icon-text.waves-effect(href='/admin/downloadDemo')
                                 i.zmdi.zmdi-download
-                                | download demo
+                                | 下载demo
                     .col-sm-3.m-b-25
                         p.f-500.m-b-15.c-black Status
                             select.selectpicker(ng-model='status')
                                 option Student
                                 option TA
+                                option teacher
             table#data-table-basic.table.table-striped.table-vmiddle
                 thead
                     tr

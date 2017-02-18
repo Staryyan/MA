@@ -1,6 +1,6 @@
 /**
- * Created by yanzexin on 31/01/2017.
- * All right reserved @Stary 31/01/2017
+ * Created by yanzexin on 18/02/2017.
+ * All right reserved @Stary 18/02/2017
  */
 var express = require('express');
 var router = express.Router();
@@ -12,8 +12,6 @@ var Homework = require('../bin/models/Homework');
 var HomeworkStatics = require('../bin/models/HomeworkStatics');
 var ScoreInfo = require('../bin/models/ScoreInfo');
 var Score = require('../bin/models/Score');
-var Writer = require('../bin/utils/CSVCreator');
-var writer = new Writer();
 
 router.post('/previewUser', function (request, response) {
     console.log('previewUser');
@@ -51,61 +49,27 @@ router.post('/submitUser', function (request, response) {
     })
 });
 
-router.post('/publishHomework', function (request, response) {
-    console.log('publishHomework');
-    Homework.publish({
-        title: request.body.title,
-        beginTime: request.body.beginTime,
-        deadline: request.body.deadline,
-        url: request.body.url
-    }, function (data) {
-            console.log(data);
-            response.json({'succeed': true});
-        });
-});
-
 router.get('/downloadDemo', function (request, response) {
     console.log('downloadDemo');
     response.download('private/userData/demo.csv', 'demo.csv');
 });
 
-router.post('/TAList', function (request, response) {
-    console.log('TAList');
-    User.findUserByStatus('TA', function (data) {
+router.post('/deleteAllUsers', function (request, response) {
+    User.deleteAllUsers(request.body.status, function (data) {
+        response.json(data);
+    });
+});
+
+router.post('/deleteUsers', function (request, response) {
+    User.deleteUserById(request.body.studentId, request.body.status, function (data) {
+        response.json(data);
+    });
+});
+
+router.post('/loadUserList', function (request, response) {
+    User.findAllUsers(function (data) {
         response.json(data);
     })
-});
-
-router.post('/evaluateHomeworkList', function (request, response) {
-    console.log('evaluateHomeworkList');
-    Homework.getEvaluatingHomeworkList(function (data) {
-        response.json(data);
-    });
-});
-
-router.post('/homeworkList', function (request, response) {
-    console.log('homeworkList');
-    Score.getAllScores(request.body.homeworkId, function (data) {
-        response.json(data);
-    });
-});
-
-router.post('/finishEvaluating', function (request, response) {
-    console.log('finishEvaluating');
-
-    var fileName = ['private/homeworkStatics/', request.body.homeworkId, '.csv'].join('');
-
-    writer.writeData(fileName, request.body.homeworkId);
-
-    HomeworkStatics.createStaticsFile(request.body.homeworkId, fileName, function (data) {
-        console.log(data);
-    });
-
-    Homework.afterEvaluate(request.body.homeworkId);
-
-    ScoreInfo.finishHomework(request.body.homeworkId, function (data) {
-        response.json(data);
-    });
 });
 
 module.exports = router;

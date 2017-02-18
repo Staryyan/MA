@@ -7,6 +7,7 @@ var express = require('express');
 var router = express.Router();
 var formidable = require('formidable');
 var fs = require('fs');
+var archiver = require('archiver');
 
 var Homework = require('../bin/models/Homework');
 var Score = require('../bin/models/Score');
@@ -73,6 +74,10 @@ router.post('/loadScoreList', function (request, response) {
             response.json(data);
         }
     });
+});
+
+router.get('/downloadBestHomework', function (request, response) {
+    response.download('private/homeworkZip/' + request.query.homeworkId + '.zip', request.query.homeworkTitle + '的最好作业.zip');
 });
 
 

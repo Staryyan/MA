@@ -16,6 +16,7 @@ append content
                         select.selectpicker(data-live-search='true' ng-model='selectedTitle')
                             - for (var each of homeworkList)
                                 option #{each['title']}
+                    a.btn.bgm-green.waves-effect(href='/student/downloadBestHomework?homeworkId=#{selectedId}&homeworkTitle=#{selectedTitle}') 下载别人的作业
 
                 .card-body
                     .table-responsive

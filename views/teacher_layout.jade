@@ -1,0 +1,105 @@
+//
+   Created by yanzexin on 01/02/2017.
+   All right reserved. 3:46 PM
+
+extends layout
+
+append style
+    link(href='../templates/vendors/bower_components/animate.css/animate.min.css', rel='stylesheet')
+    link(href='../templates/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.css', rel='stylesheet')
+    link(href='../templates/vendors/bower_components/material-design-iconic-font/dist/css/material-design-iconic-font.min.css', rel='stylesheet')
+    link(href='../templates/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css', rel='stylesheet')
+    link(href='../templates/vendors/bootgrid/jquery.bootgrid.min.css', rel='stylesheet')
+    link(href='../templates/vendors/bower_components/bootstrap-select/dist/css/bootstrap-select.css', rel='stylesheet')
+    link(href='../templates/vendors/bower_components/nouislider/distribute/jquery.nouislider.min.css', rel='stylesheet')
+    link(href='../templates/vendors/farbtastic/farbtastic.css', rel='stylesheet')
+    link(href='../templates/vendors/bower_components/chosen/chosen.min.css', rel='stylesheet')
+    // CSS
+    link(href='../templates/css/app.min.1.css', rel='stylesheet')
+    link(href='../templates/css/app.min.2.css', rel='stylesheet')
+    block stylesheets
+
+append header
+    header#header.clearfix(data-current-skin='blue')
+        ul.header-inner
+            li#menu-trigger(data-trigger='#sidebar')
+                .line-wrap
+                    .line.top
+                    .line.center
+                    .line.bottom
+            li.logo.hidden-xs
+                a My Achievement
+    section#main
+        aside#sidebar.sidebar.c-overflow
+            .profile-menu
+                a(href='')
+                    .profile-pic
+                        img(src='img/profile-pics/2.jpg', alt='')
+                    .profile-info
+                        | My Achievement
+                        i.zmdi.zmdi-caret-down
+                ul.main-menu
+                    li
+                        a(href='/profile')
+                            i.zmdi.zmdi-account
+                            |  个人信息
+                    li
+                        a(href='/logout')
+                            i.zmdi.zmdi-time-restore
+                            |  Logout
+            ul.main-menu
+                li
+                    a(href='/teacher_home')
+                        i.zmdi.zmdi-home
+                        |  Home
+                li.sub-menu
+                    a(href='')
+                        i.zmdi.zmdi-view-subtitles
+                        |  成绩操作
+                    ul
+                        li
+                            a(href='/scores')
+                                i.zmdi.zmdi-view-list-alt
+                                |   查看成绩
+                        li
+                            a(href='/teacher_evaluate')
+                                i.zmdi.zmdi-alarm-check
+                                |  评测作业
+                li
+                    a(href='/teacher_publishHomework')
+                        i.zmdi.zmdi-calendar
+                        |  发布作业
+        section#content
+            block content
+
+append js
+    script(src='../templates/vendors/bower_components/jquery/dist/jquery.min.js')
+    script(src='../templates/vendors/bower_components/bootstrap/dist/js/bootstrap.min.js')
+    script(src='../templates/vendors/bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')
+    script(src='../templates/vendors/fileinput/fileinput.min.js')
+    script(src='../templates/vendors/input-mask/input-mask.min.js')
+    script(src='../templates/vendors/bower_components/Waves/dist/waves.min.js')
+    script(src='../templates/vendors/bootstrap-growl/bootstrap-growl.min.js')
+    script(src='../templates/vendors/bower_components/bootstrap-sweetalert/lib/sweet-alert.min.js')
+    script(src='../templates/vendors/bower_components/chosen/chosen.jquery.min.js')
+    script(src='../templates/vendors/fileinput/fileinput.min.js')
+    script(src='../templates/vendors/input-mask/input-mask.min.js')
+
+    script(src='../templates/vendors/bower_components/moment/min/moment.min.js')
+    script(src='../templates/vendors/bower_components/bootstrap-select/dist/js/bootstrap-select.js')
+    script(src='../templates/vendors/bower_components/nouislider/distribute/jquery.nouislider.all.min.js')
+    script(src='../templates/vendors/bower_components/typeahead.js/dist/typeahead.bundle.min.js')
+    script(src='../templates/vendors/summernote/dist/summernote-updated.min.js')
+    script(src='../templates/vendors/bower_components/jquery-placeholder/jquery.placeholder.min.js')
+    script(src='../templates/vendors/farbtastic/farbtastic.min.js')
+
+    script(src='../templates/js/functions.js')
+    script(src='../templates/js/demo.js')
+    script(src='../javascripts/notify.js')
+    script(src='../templates/vendors/bootgrid/jquery.bootgrid.updated.min.js')
+
+    script(src="../templates/js/angular.js" type="text/javascript")
+
+    block javascripts
+
+

@@ -1,0 +1,81 @@
+//
+   Created by yanzexin on 01/02/2017.
+   All right reserved. 3:49 PM
+
+extends teacher_layout
+append content
+    .container(ng-app='homeApp', ng-controller='homeCtrl')
+        .col-md-12
+            .card
+                .card-header
+                    h2 各次成绩统计
+                .card-body.card-padding-sm
+                    #bar-chart.flot-chart
+                    .flc-bar
+        .row
+            .col-sm-4(ng-repeat='each in homeworkList' ng-switch="each['state']")
+                .card(ng-switch-when="running")
+                    .card-header.bgm-red
+                        h2
+                            | {{each['title']}}
+                            small
+                        ul.actions
+                            li.dropdown
+                                a(href='', data-toggle='dropdown')
+                                    i.zmdi.zmdi-more-vert
+                                ul.dropdown-menu.dropdown-menu-right
+                                    li
+                                        a(href='{{each["url"]}}') 作业链接
+                                    li
+                                        a(href='') 其他
+                    .card-body.card-padding
+                        | 结束时间: {{convertFormat(each['deadline'])}}
+                .card(ng-switch-when="evaluating")
+                    .card-header.bgm-blue
+                        h2
+                            | {{each['title']}}
+                            small
+                        ul.actions
+                            li.dropdown
+                                a(href='', data-toggle='dropdown')
+                                    i.zmdi.zmdi-more-vert
+                                ul.dropdown-menu.dropdown-menu-right
+                                    li
+                                        a(href="{{each['url']}}") 作业链接
+                                    li
+                                        a(href='') Others
+                    .card-body.card-padding
+                        | 还在评测中,请静候.
+                .card(ng-switch-when="finish")
+                    .card-header.ch-alt.m-b-20
+                        h2
+                            | {{each['title']}}
+                            small
+                        ul.actions
+                            li
+                                a(href="/downloadScore?homeworkId={{each['_id']}}&homeworkTitle={{each['title']}}")
+                                    i.zmdi.zmdi-download
+                            li.dropdown
+                                a(href='', data-toggle='dropdown')
+                                    i.zmdi.zmdi-more-vert
+                                ul.dropdown-menu.dropdown-menu-right
+                                    li
+                                        a(href='{{each["url"]}}') 作业链接
+                                    li
+                                        a(href='{{getScoreUrl(each["_id"], each["title"])}}') 所有学生情况
+                                    li
+                                        a(href='') Others
+                    .card-body.card-padding
+                        h5 提交总次数: {{getInfoById(each['_id'])['size']}} 次
+                        h5 平均分: {{getInfoById(each['_id'])['average']}} 分
+                        h5 最高分: {{getInfoById(each['_id'])['max']}} 分
+
+append javascripts
+    script(src='../templates/vendors/bower_components/moment/moment.js')
+    script(src='../templates/vendors/bower_components/flot/jquery.flot.js')
+    script(src='../templates/vendors/bower_components/flot/jquery.flot.resize.js')
+    script(src='../templates/vendors/bower_components/flot.tooltip/js/jquery.flot.tooltip.min.js')
+    script(src='../templates/vendors/bower_components/flot-orderBars/js/jquery.flot.orderBars.js')
+    script(src='../templates/vendors/bower_components/flot-orderBars/js/jquery.flot.orderBars.js')
+
+    script(src='../javascripts/home.js')

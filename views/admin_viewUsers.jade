@@ -5,22 +5,57 @@
 extends admin_layout
 
 append content
-    .container
+    .container(ng-app='adminApp', ng-controller='viewUsersCtrl' ng-init="init('#{status}')")
         .card
             .card-header
                 h2
                     | 用户列表(#{status})
+                br
+                a.btn.bgm-red.waves-effect(style='margin: 10px' href='#deleteAllUsers', data-toggle='modal') 删除所有用户
+                a.btn.bgm-red.waves-effect(href='#deleteUsers', data-toggle='modal' ) 删除用户
             table#data-table-command.table.table-striped.table-vmiddle
                 thead
                     tr
                         th(data-column-id='id', data-type='numeric') 学号
                         th(data-column-id='name') 名字
                         th(data-column-id='received', data-order='desc') Email
+
                 tbody
                     - for (var each of userList)
                         tr
                             td #{each['studentId']}
                             td #{each['name']}
                             td #{each['email']}
+
+            #deleteAllUsers.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
+                .modal-dialog
+                    .modal-content
+                        .modal-header
+                            h4.modal-title 删除所有用户
+                        .modal-body
+                            .card
+                                .card-header
+                                    | 你确定要删除所有用户吗?一旦删除就不可再恢复了.
+                            .modal-footer
+                                button.btn.bgm-red.waves-effect(type='button' ng-click="deleteAllUsers()") 确定
+                                button.btn.btn-link(type='button', data-dismiss='modal') 取消
+
+            #deleteUsers.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
+                .modal-dialog
+                    .modal-content
+                        .modal-header
+                            h4.modal-title 删除用户
+                        .modal-body
+                            .card
+                                .card-header
+                                    | 你确定要删除这个用户吗?一旦删除就不可再恢复了.
+                                    .input-group.form-group
+                                        .fg-line
+                                            input.form-control(type='text', placeholder='学号', ng-model='studentId')
+                            .modal-footer
+                                button.btn.bgm-red.waves-effect(type='button' ng-click="deleteUsers()") 确定
+                                button.btn.btn-link(type='button', data-dismiss='modal') 取消
+
+
 append javascripts
     script(src='../javascripts/admin_viewUsers.js')

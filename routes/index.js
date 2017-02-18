@@ -26,7 +26,9 @@ router.get('/logout', function (request, response) {
 router.get('/profile', function (request, response) {
   isLogin(request, response, function () {
     var userCookie = getCookieInfo(request);
-    if (userCookie.status == 'admin') {
+    if (userCookie.status == 'teacher') {
+      href = 'teacher_profile';
+    } else if (userCookie.status == 'admin') {
       href = 'admin_profile';
     } else if (userCookie.status == 'TA') {
       href = 'TA_profile';
@@ -41,7 +43,9 @@ router.get('/home', function (request, response) {
   isLogin(request, response, function () {
     var status = request.cookies.user['status'];
     var href = '';
-    if (status == 'admin') {
+    if (status == 'teacher') {
+      href = './teacher_home';
+    } else if (status == 'admin') {
       href = './admin_home';
     } else if (status == 'TA') {
       href = './TA_home';
@@ -64,8 +68,8 @@ router.get('/scores', function (request, response) {
       unvalidVisit(response);
     } else {
       var href = '';
-      if (userCookies.status == 'admin') {
-        href = 'admin_scores';
+      if (userCookies.status == 'teacher') {
+        href = 'teacher_scores';
       } else if (userCookies.status == 'TA') {
         href = 'TA_scores';
       } else {
@@ -124,11 +128,22 @@ router.get('/downloadScore', function (request, response) {
 });
 
 /**
- * Admin Get router.
+ * admin Get router.
  */
+
 router.get('/admin_home', function (request, response) {
   isValidVisitWithStatus(request, response, 'admin', function () {
     response.render('admin_home');
+  })
+});
+
+router.get('/admin_viewUsers_teacher', function (request, response) {
+  isValidVisitWithStatus(request, response, 'admin', function () {
+    User.findUserByStatus('teacher', function (data) {
+      if (data['succeed']) {
+        response.render('admin_viewUsers', {'userList': data['data'], 'status': 'teacher'});
+      }
+    })
   });
 });
 
@@ -158,15 +173,24 @@ router.get('/admin_importUsers', function (request, response) {
   });
 });
 
-router.get('/admin_publishHomework', function (request, response) {
-  isValidVisitWithStatus(request, response, 'admin', function () {
-    response.render('admin_publishHomework');
+/**
+ * teacher Get router.
+*/
+router.get('/teacher_home', function (request, response) {
+  isValidVisitWithStatus(request, response, 'teacher', function () {
+    response.render('teacher_home');
   });
 });
 
-router.get('/admin_evaluate', function (request, response) {
-  isValidVisitWithStatus(request, response, 'admin', function () {
-    response.render('admin_evaluate');
+router.get('/teacher_publishHomework', function (request, response) {
+  isValidVisitWithStatus(request, response, 'teacher', function () {
+    response.render('teacher_publishHomework');
+  });
+});
+
+router.get('/teacher_evaluate', function (request, response) {
+  isValidVisitWithStatus(request, response, 'teacher', function () {
+    response.render('teacher_evaluate');
   })
 });
 
