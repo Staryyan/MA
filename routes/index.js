@@ -1,12 +1,15 @@
 var express = require('express');
 var router = express.Router();
 
+var _ = require('underscore');
+
 var Homework = require('../bin/models/Homework');
 var User = require('../bin/models/User');
 var Score = require('../bin/models/Score');
 var Writer = require('../bin/utils/CSVCreator');
 var HomeworkStatics = require('../bin/models/HomeworkStatics');
 var writer = new Writer();
+
 
 /* GET home page. */
 router.get('/', function(request, response, next) {
@@ -82,6 +85,12 @@ router.get('/scores', function (request, response) {
 
             Score.getAllScores(request.query.homeworkId, function (records) {
               if (records['succeed']) {
+                for (var each of records['data']) {
+                  each['comment'] = '';
+                  each['files'] = '';
+                  each['homeworkId'] = '';
+                }
+                console.log(records['data']);
                 response.render(href, {
                   homeworkList: data['data'],
                   scoreList: records['data'],
@@ -95,6 +104,11 @@ router.get('/scores', function (request, response) {
             
             Score.getAllScores(data['data'][0]['_id'], function (records) {
               if (records['succeed']) {
+                for (var each of records['data']) {
+                  each['comment'] = '';
+                  each['files'] = '';
+                  each['homeworkId'] = '';
+                }
                 response.render(href, {
                   homeworkList: data['data'],
                   scoreList: records['data'],

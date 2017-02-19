@@ -1,4 +1,4 @@
-cd bin/Data
+cd scripts/Data
 
 mongoimport -d MA -c users users.json 
 mongoimport -d MA -c scores scores.json 
@@ -7,4 +7,6 @@ mongoimport -d MA -c scoreinfos scoreinfos.json
 mongoimport -d MA -c homeworkstatics homeworkstatics.json 
 
 cd ..
+cd ..
+cd bin
 node www

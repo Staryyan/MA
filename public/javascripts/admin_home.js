@@ -31,7 +31,7 @@ app.controller('homeCtrl', function ($scope, $http) {
                 $scope.studentSize++;
             } else if (each.status == 'teacher') {
                 $scope.teacherSize++;
-            } else {
+            } else if (each.status == 'TA') {
                 $scope.TASize++;
             }
         }

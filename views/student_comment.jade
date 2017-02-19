@@ -16,8 +16,7 @@ append content
                     .media-body
                         .lv-title
                                 | {{each['title']}}
-                        small.lv-small
-                            | {{getScore(each['_id'], each['state'])['comment']}}
+                        | {{getScore(each['_id'], each['state'])['comment'] ? getScore(each['_id'], each['state'])['comment'] : '你的作业还没有被评测,请等候.'}}
                         ul.lv-attrs
                             li TA: {{getTAName(getScore(each['_id'], each['state'])['TAId'])}}
                             li 分数: {{getScore(each['_id'], each['state'])['score']}} 分
